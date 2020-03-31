@@ -1,0 +1,10 @@
+<h2>Its Form {{creator_name}}</h2>
+<a href="{% url 'storm:logout_user' %}">Logout</a>
+<br><br>
+<form action="{% url 'storm:idea_submit' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <input type="text" name="idea_title"><br><br>
+    <textarea name="idea_description" cols="30" rows="10"></textarea><br><br>
+    <input type="number" name="idea_duration"><br><br>
+    <input type="file" name="idea_file"><br><br>
+    <button type="submit">Submit</button>
+</form>
