@@ -9,11 +9,13 @@ def authentication_check(user):
     return user.is_authenticated
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('storm:home')
     return render(request, 'storm/login.html')
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def home(request):
-    creator_name = request.user.get_full_name
+    creator_name = request.user.first_name
     creator_email = request.user.email
     return render(request, 'storm/home.html', {"creator_email":creator_email, "creator_name":creator_name})
 
