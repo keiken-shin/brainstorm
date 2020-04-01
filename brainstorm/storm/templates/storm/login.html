@@ -1,2 +1,38 @@
-<h1>Hey, there!</h1>
-<a href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% load staticfiles %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'storm/images/favicon.svg' %}" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'storm/css/main.css' %}">
+    
+    <title>Brainstorm</title>
+</head>
+<body>
+    <div class="block md:flex lg:flex h-screen login-div">
+        <div class="flex flex-col justify-center md:pl-20 md:flex-1 lg:flex-1">
+            <h1 class="font-bold text-2xl text-blue-400 uppercase md:text-5xl lg:text-6xl login-heading">
+                <span>Brainstorm</span>
+            </h1>
+            <span class="text-base login-tag mb-4">Share your idea to improve the workflow of company and win exciting prices.</span>
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="px-6 py-2 text-center md:w-48 login-button">Login</a>
+        </div>
+        <div class="relative md:flex-1 lg:flex-1">
+            <img src="{% static 'storm/images/idea.svg' %}" alt="idea" srcset="{% static 'storm/images/idea.svg' %}" class="h-full z-10 login-image">
+            <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="{% static 'storm/js/particles.js' %}"></script>
+</body>
+</html>

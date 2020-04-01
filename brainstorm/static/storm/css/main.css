@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap');
+
+/* Import other css files */
+@import './_login.css';
+@import './_header.css';
+
+:root{
+    --text-white: #fff;
+    --text-light: #ccc;
+    --text-black: #000;
+    --background: var(--text-black);
+    --header-base: #222;
+    --glitch-1: #00ffff;
+    --glitch-2: #ff00ff;
+}
+
+html,
+body{
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--background);
+    color: var(--text-white);
+}
+
