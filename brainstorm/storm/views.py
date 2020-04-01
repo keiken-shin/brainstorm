@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout
 from django.views.decorators.csrf import csrf_exempt
-from .models import Idea
+from .models import Idea, Judgeselection
 
 def authentication_check(user):
     return user.is_authenticated
@@ -52,4 +52,5 @@ def idea_submit(request):
 
 def admin_page(request):
     obj = Idea.objects.all()
-    return render(request, 'storm/admin.html', {'obj':obj})
+    status = Judgeselection.objects.all()
+    return render(request, 'storm/admin.html', {'obj':obj, 'status':status})

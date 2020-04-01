@@ -24,3 +24,9 @@ class Idea(models.Model):
 
     def __str__(self):
         return self.idea_title
+
+class Judgeselection(models.Model):
+    idea_status = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.idea_status
