@@ -38,7 +38,7 @@
             <ul class="flex flex-col items-center nav__list h-full">
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:home' %}" class="block nav__link" data-content='Home'>Home</a></li>
                 <li class="flex-1 relative w-full"><a href="" class="block nav__link" data-content='My Ideas'>My Ideas</a></li>
-                <li class="flex-1 relative w-full"><a href="" class="block nav__link" data-content='Jury'>Jury</a></li>
+                <li class="flex-1 relative w-full"><a href="{% url 'storm:admin_page' %}" class="block nav__link" data-content='Jury'>Jury</a></li>
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:logout_user' %}" class="block nav__link" data-content='Logout'>Logout</a></li>
             </ul>
         </nav>

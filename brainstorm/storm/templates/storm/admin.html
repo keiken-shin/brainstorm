@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body>
+<h1>Welcome to Admin Page</h1>
+{% for i in obj %}
+    {{ i.idea_creator_name }}
+    {{ i.idea_creator_mail }}
+    {{ i.idea_creation_date }}
+    {{ i.idea_title }}
+    {{ i.idea_description }}
+    {{ i.idea_duration }}
+    {{ i.idea_file }}
+{% endfor %}
+
+</body>
+</html>

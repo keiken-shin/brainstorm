@@ -37,7 +37,7 @@ def idea_submit(request):
         idea_description = request.POST.get("idea_description")
         idea_duration = request.POST.get("idea_duration")
         idea_file = request.FILES.get('idea_file')
-        print(idea_creator_name)
+        # print(idea_creator_name)
         # Save Idea
         Idea.objects.create(idea_creator_name=idea_creator_name, 
                             idea_creator_mail=idea_creator_mail,
@@ -49,3 +49,7 @@ def idea_submit(request):
         return redirect('storm:home')
     return redirect('storm:home')
 
+
+def admin_page(request):
+    obj = Idea.objects.all()
+    return render(request, 'storm/admin.html', {'obj':obj})
