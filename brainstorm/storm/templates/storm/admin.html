@@ -15,16 +15,17 @@
     {{ i.idea_duration }}
     {{ i.idea_file }}
  <div class="uk-form-controls">
-                            <textarea class="uk-textarea" name="desc" id="description" rows="5" placeholder="Hey, your query description please" required=true></textarea>
-                        </div>
+     <textarea class="uk-textarea" name="desc" id="description" rows="5" placeholder="Hey, your query description please" required=true></textarea>
+ </div>
  <div class="uk-form-controls">
-                            <select class="uk-select" name="team_name" id="team_name" required="true">
-                                <option value="">--select--</option>
-                                {% for i in status %}
-                                    <option value="{{ team }}">{{ i }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+    <select class="uk-select" name="team_name" id="team_name" required="true">
+        <option value="">--select--</option>
+        {% for i in status %}
+            <option value="{{ team }}">{{ i }}</option>
+        {% endfor %}
+    </select>
+</div>
+ <button class="uk-button uk-button-primary">Submit</button>
 {% endfor %}
 
 </body>
