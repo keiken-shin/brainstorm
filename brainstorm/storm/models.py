@@ -20,7 +20,8 @@ class Idea(models.Model):
     idea_file = models.FileField(upload_to='', blank=True)
 
     # Judge Selection
-    idea_status = models.CharField(max_length=200, default='Pending', choices=[('Pending', 'Pending'), ('WIP', 'WIP'), ('Accepted', 'Accepted'), ('Completed', 'Completed')])
+    idea_remark = models.TextField(default=None, null=True, blank=True)
+    idea_status = models.CharField(max_length=200, default='Pending', choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')])
 
     def __str__(self):
         return self.idea_title

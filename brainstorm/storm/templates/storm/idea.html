@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block Title %}Idea | {% endblock %}
+
+{% block body %}
+
+{% for i in ideas %}
+
+<div class="md:w-3/4 md:m-auto">
+    <section class="mb-4 flex items-center">
+        <h1 class="flex-1 text-2xl font-bold md:text-3xl">{{i.idea_title}}</h1>
+        <a onclick="history.back()" class="bg-blue-300 text-blue-800 p-2 rounded cursor-pointer hidden md:block"><i class="fas fa-chevron-left mr-2"></i> Back to home</a>
+    </section>
+
+    <p class="w-24 mb-8 status py-1 px-2 rounded text-center border">{{ i.idea_status }}</p>
+
+    <section class="mb-8">
+        <p class="font-semibold flex flex-col md:flex-row text-purple-600">
+            <span class="flex flex-col md:flex-1 text-sm">
+                <span class="mb-2"><i class="far fa-user mr-2"></i>{{ i.idea_creator_name }}</span>
+                <span class=""><i class="far fa-envelope mr-2"></i>{{ i.idea_creator_mail }}</span>
+            </span>
+            <span class="flex flex-col md:flex-1 text-sm">
+            <span class="mb-2"><i class="fas fa-users mr-2"></i>Analytics</span>
+            <span class=""><i class="far fa-clock mr-2"></i>{{i.idea_creation_date|date}}</span>
+            </span>
+        </p>
+    </section>
+
+    {% if i.idea_duration or i.idea_file %}
+    <section class="mb-8 flex flex-col md:flex-row">
+        {% if i.idea_duration %}
+        <p class="md:flex-1">
+            <span class="text-md text-gray-500 block">Documented Detail: </span>
+            <span class="block text-lg">{{ i.idea_duration }} days</span>
+        </p>
+        {% endif %}
+    
+        {% if i.idea_file %}
+        <p class="md:flex-1">
+            <span class="text-md text-gray-500 block">Estimated Time Required: </span>
+            <span class="block text-lg"><a href="{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
+        </p>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <article class="mb-8">
+        <p class="text-md text-gray-500 mb-2">Description</p>
+        <p class="text-lg">{{ i.idea_description }}</p>
+    </article>
+
+    {% if i.idea_remark %}
+    <article class="mb-8">
+        <p class="text-md text-gray-500 mb-2">Remark</p>
+        <p class="text-lg remark-tab">{{ i.idea_remark }}</p>
+    </article>
+    {% endif %}
+
+    {% if i.idea_status == 'Pending' %}
+        {% if user_email in judges %}
+        <section class="judge-action">
+            <a class="button__accept cursor-pointer bg-purple-700 py-2 px-8 mr-3">Accept</a>
+            <a class="button__reject cursor-pointer border border-red-500 text-red-500 py-2 px-8">Reject</a>
+        </section>
+
+        <form action="{% url 'storm:selection' id=i.id %}" method="POST" class="judge-form hidden" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form__fieldset">
+                <div class="mb-6">
+                    <label class="block text-gray-500 text-sm font-bold mb-2 remark-label">Reason for acceptance</label>
+                    <div class="form__input-div">
+                        <textarea name="idea_remark" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="So the reason is..."></textarea>
+                        <span class="form__input-focus" style="bottom: 7px;"></span>
+                    </div>
+                </div>
+
+                <select name="idea_status" class="hidden">
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+
+                <button class="py-2 px-6 button-submit sm:block">Get Set Go</button>
+            </fieldset>
+        </form>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'storm/js/main.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block Title %}Home | {% endblock %}
+
+{% block body %}
+<form method="POST" enctype="multipart/form-data" class="form">
+    {% csrf_token %}
+    
+    <fieldset class="form__fieldset md:form__fieldset">
+        <legend class="uppercase font-black md:form__legend md:text-4xl">Fill up your idea</legend>
+
+        <div class="mt-6 mb-6">
+            <label class="block text-gray-500 text-sm font-bold mb-2">Provide a title for you idea</label>
+            <div class="form__input-div">
+                <input type="text" name="idea_title" class="appearance-none py-2 px-3 form__input" placeholder="My Awesome Idea Title">
+                <span class="form__input-focus"></span>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-gray-500 text-sm font-bold mb-2">Describe your idea</label>
+            <div class="form__input-div">
+                <textarea name="idea_description" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="My awesome idea is about...."></textarea>
+                <span class="form__input-focus" style="bottom: 7px;"></span>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <label class="block text-gray-500 text-sm font-bold mb-2">Estimated time required for this idea <em>(in days)</em></label>
+            <div class="form__input-div">
+                <input type="number" name="idea_duration" class="appearance-none py-2 px-3 form__input" placeholder="12">
+                <span class="form__input-focus"></span>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <label class="block text-gray-500 text-sm font-bold mb-2">Any documents for details <em>(Optional)</em></label>
+            <div class="form__input-div relative form__file-div">
+                <span class="form__file-name form__file-placeholder py-2 px-3 absolute flex items-center w-full h-full pointer-none">Choose a file</span>
+                <div class="form__input z-10">
+                    <input type="file" name="idea_file" class="appearance-none py-2 px-3 w-full h-full form__file">
+                </div>
+                <span class="form__input-focus"></span>
+            </div>
+        </div>
+        
+
+        <button class="py-2 px-6 button-submit sm:block">Submit</button>
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'storm/js/form.js' %}"></script>
+{% endblock %}

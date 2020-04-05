@@ -1,0 +1,45 @@
+/* Home Design */
+
+.card{
+    background-color: var(--card-base);
+}
+
+.card__head{
+    border-color: var(--card-date);
+}
+
+.search{
+    background-color: transparent;
+    border: 1px solid var(--header-base);
+    outline: none;
+    appearance: none;
+}
+
+.search::placeholder{
+    color: var(--placeholder-color);
+}
+
+.card__head__creator{
+    color: var(--card-title);
+}
+
+.card__head__date{
+    font-size: .8rem;
+    color: var(--card-date);
+}
+
+.card__description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.empty{
+    height: calc(100% - 128px);
+}
+
+@media (min-width: 768px){
+    .md\:tab-active{
+        border-bottom: 2px solid var(--glitch-1);
+    }
+}

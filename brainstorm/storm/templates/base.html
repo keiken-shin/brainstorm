@@ -13,9 +13,10 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'storm/css/main.css' %}">
+    {% block links %}{% endblock %}
 
     <!-- FontAwesome CDN -->
-    <!-- <script src="https://kit.fontawesome.com/8aa13c88ab.js" crossorigin="anonymous"></script> -->
+    <script async src="https://kit.fontawesome.com/8aa13c88ab.js" crossorigin="anonymous"></script>
 
     <title>{% block title %}{% endblock %} Brainstorm</title>
 </head>
@@ -37,8 +38,8 @@
         <nav class="flex-1 w-full nav">
             <ul class="flex flex-col items-center nav__list h-full">
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:home' %}" class="block nav__link" data-content='Home'>Home</a></li>
-                <li class="flex-1 relative w-full"><a href="" class="block nav__link" data-content='My Ideas'>My Ideas</a></li>
-                <li class="flex-1 relative w-full"><a href="{% url 'storm:admin_page' %}" class="block nav__link" data-content='Jury'>Jury</a></li>
+                <li class="flex-1 relative w-full"><a href="{% url 'storm:idea_form' %}" class="block nav__link" data-content='Got Idea?'>Got Idea?</a></li>
+                <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='Jury'>Jury</a></li>
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:logout_user' %}" class="block nav__link" data-content='Logout'>Logout</a></li>
             </ul>
         </nav>
@@ -47,5 +48,11 @@
     <main class="ml-20 p-6">
     {% block body %}{% endblock %}
     </main>
+
+    <!-- List JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+    <!-- Custom Scripts -->
+    {% block scripts %}{% endblock %}
 </body>
 </html>

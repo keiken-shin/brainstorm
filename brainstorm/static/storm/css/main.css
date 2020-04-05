@@ -3,6 +3,8 @@
 /* Import other css files */
 @import './_login.css';
 @import './_header.css';
+@import './_home.css';
+@import './_form.css';
 
 :root{
     --text-white: #fff;
@@ -10,6 +12,10 @@
     --text-black: #000;
     --background: var(--text-black);
     --header-base: #222;
+    --card-base: #111;
+    --card-title: #a597ed;
+    --card-date: #666;
+    --placeholder-color: #444;
     --glitch-1: #00ffff;
     --glitch-2: #ff00ff;
 }

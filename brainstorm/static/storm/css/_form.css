@@ -1,0 +1,140 @@
+/* Form Design */
+
+.form{
+    width: 100%;
+}
+
+
+.form__fieldset{
+    border: 0px;
+    width: 100%;
+}
+
+.form__input-div{
+    position: relative;
+    width: 100%;
+}
+
+.form__input{
+    background-color: transparent;
+    border: 1px solid var(--header-base);
+    border-bottom: 2px solid var(--header-base);
+    outline: none;
+    width: 100%;
+    height: 3rem;
+}
+
+.form__textarea{
+    height: 8rem;
+}
+
+.form__file-selected{
+    color: var(--text-white);
+}
+
+.pointer-none{
+    pointer-events: none;
+}
+
+.form__input::placeholder,
+.form__textarea::placeholder,
+.form__file-placeholder{
+    color: var(--placeholder-color);
+}
+
+.form__input-focus{
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--glitch-2);
+}
+
+.form__input:focus + .form__input-focus,
+.form__input:not(:placeholder-shown):valid + .form__input-focus{
+    animation: field_focus .5s ease-in forwards;
+}
+
+.form__input:not(:focus) + .form__input-focus{
+    animation: field_focus_out .5s ease-out forwards;
+}
+
+.form__input::-webkit-inner-spin-button,
+.form__input::-webkit-outer-spin-button{
+    display: none;
+}
+
+.form__file{
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.button-submit{
+    border: 1px solid var(--glitch-1);
+    color: var(--glitch-1);
+}
+
+.circle-notch {
+    animation: submit_load .8s ease-in-out infinite;
+    transition: all ease
+}
+
+@keyframes submit_load{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(90deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    75%{
+        transform: rotate(270deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes field_focus{
+    from{
+        width: 0%;
+    }
+    to{
+        width: 100%;
+    }
+}
+
+@keyframes field_focus_out{
+    from{
+        width: 100%;
+    }
+    to{
+        width: 0%;
+    }
+}
+
+@media (min-width: 768px){
+    .md\:form__legend{
+        -webkit-text-stroke: 1px var(--text-light);
+        color: transparent;
+        width: 100%;
+    }
+
+    /* .md\:form__legend::before{
+        content: '';
+        display: inline-block;
+        border-bottom: 1px solid var(--text-light);
+        opacity: .2;
+        width: 49%;
+        margin-right: 10px;
+    } */
+
+    .md\:form__fieldset{
+        width: 50%;
+        margin: 0 auto;
+    }
+}
