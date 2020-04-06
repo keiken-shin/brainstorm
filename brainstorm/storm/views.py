@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.conf import settings
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout
 from django.views.decorators.csrf import csrf_exempt
@@ -54,14 +56,16 @@ def idea_submit(request):
         idea_file = request.FILES.get('idea_file')
 
         # Save Idea
-        Idea.objects.create(idea_creator_name=idea_creator_name, 
+        obj = Idea.objects.create(idea_creator_name=idea_creator_name,
                             idea_creator_mail=idea_creator_mail,
                             idea_title=idea_title, 
                             idea_description=idea_description, 
                             idea_duration=idea_duration, 
                             idea_file=idea_file,)
+        send_mail(f'Your ID is {obj.id}',
+                  'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
                         
-        return HttpResponse('')
+        return redirect('storm:home')
     return redirect('storm:home')
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
@@ -73,6 +77,7 @@ def selection(request, id):
 
         # Update Status and Remark
         Idea.objects.filter(pk=id).update(idea_remark=idea_remark, idea_status=idea_status)
+        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [request.user.email])
         return redirect('storm:idea', id=id)
     return redirect('storm:home')
 
