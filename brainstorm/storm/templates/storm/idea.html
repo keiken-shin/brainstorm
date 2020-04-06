@@ -85,7 +85,9 @@
                     <option value="Accepted">Accepted</option>
                     <option value="Rejected">Rejected</option>
                 </select>
-
+                {% for i in ideas %}
+                    <input type="email" name="idea_creator_mail" value="{{ i.idea_creator_mail }}" class="hidden">
+                {% endfor %}
                 <button class="py-2 px-6 button-submit sm:block">Get Set Go</button>
             </fieldset>
         </form>

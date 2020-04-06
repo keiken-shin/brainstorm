@@ -78,10 +78,10 @@ def selection(request, id):
         # Accept/Reject
         idea_remark = request.POST.get("idea_remark")
         idea_status = request.POST.get("idea_status")
-
+        idea_creator_mail = request.POST.get("idea_creator_mail")
         # Update Status and Remark
         Idea.objects.filter(pk=id).update(idea_remark=idea_remark, idea_status=idea_status)
-        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [request.user.email])
+        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [idea_creator_mail])
         return redirect('storm:idea', id=id)
     return redirect('storm:home')
 
