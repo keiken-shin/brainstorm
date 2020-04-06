@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout
 from django.views.decorators.csrf import csrf_exempt
 from .models import Idea, Judge, Judgeselection
-from django.conf import settings
 
 def authentication_check(user):
     return user.is_authenticated
@@ -25,7 +25,8 @@ def home(request):
     user_name = request.user.first_name
     user_email = request.user.email
     ideas = Idea.objects.all().order_by('-id')
-    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea(request, id):
@@ -37,9 +38,12 @@ def idea(request, id):
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea_form(request):
+    user_name = request.user.first_name
+    user_email = request.user.email
     creator_name = request.user.first_name
     creator_email = request.user.email
-    return render(request, 'storm/form.html', {"creator_email":creator_email, "creator_name":creator_name})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/form.html', {"user_email":user_email, "user_name":user_name, "creator_email":creator_email, "creator_name":creator_name, "judges":judges})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 @csrf_exempt
@@ -62,8 +66,8 @@ def idea_submit(request):
                             idea_description=idea_description, 
                             idea_duration=idea_duration, 
                             idea_file=idea_file,)
-
-        send_mail(f'Your Id No is {obj.id} ','Hi,\n\nYour Idea is received.\nOur team responding you soon.', settings.EMAIL_HOST_USER,[request.user.email])
+        send_mail(f'Your ID is {obj.id}',
+                  'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
                         
         return redirect('storm:home')
     return redirect('storm:home')
@@ -74,14 +78,17 @@ def selection(request, id):
         # Accept/Reject
         idea_remark = request.POST.get("idea_remark")
         idea_status = request.POST.get("idea_status")
-
+        idea_creator_mail = request.POST.get("idea_creator_mail")
         # Update Status and Remark
         Idea.objects.filter(pk=id).update(idea_remark=idea_remark, idea_status=idea_status)
-        send_mail(f'Hii, your idea is {idea_status} ', f' remarks on your idea is {idea_remark}.',settings.EMAIL_HOST_USER, [request.user.email])
+        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [idea_creator_mail])
         return redirect('storm:idea', id=id)
     return redirect('storm:home')
 
 
 def jury(request):
+    user_name = request.user.first_name
+    user_email = request.user.email
     ideas = Idea.objects.all()
-    return render(request, 'storm/jury.html', {'ideas':ideas})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})

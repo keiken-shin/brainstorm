@@ -21,7 +21,13 @@
                 <span class=""><i class="far fa-envelope mr-2"></i>{{ i.idea_creator_mail }}</span>
             </span>
             <span class="flex flex-col md:flex-1 text-sm">
-            <span class="mb-2"><i class="fas fa-users mr-2"></i>Analytics</span>
+            <span class="mb-2"><i class="fas fa-users mr-2"></i>
+                {% if i.idea_creator_team %}
+                    {{ i.idea_creator_team }}
+                {% else %}
+                    No Team Record
+                {% endif %}
+            </span>
             <span class=""><i class="far fa-clock mr-2"></i>{{i.idea_creation_date|date}}</span>
             </span>
         </p>
@@ -39,7 +45,7 @@
         {% if i.idea_file %}
         <p class="md:flex-1">
             <span class="text-md text-gray-500 block">Estimated Time Required: </span>
-            <span class="block text-lg"><a href="{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
+            <span class="block text-lg"><a href="/static{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
         </p>
         {% endif %}
     </section>
@@ -70,7 +76,7 @@
                 <div class="mb-6">
                     <label class="block text-gray-500 text-sm font-bold mb-2 remark-label">Reason for acceptance</label>
                     <div class="form__input-div">
-                        <textarea name="idea_remark" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="So the reason is..."></textarea>
+                        <textarea name="idea_remark" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="So the reason is..." required></textarea>
                         <span class="form__input-focus" style="bottom: 7px;"></span>
                     </div>
                 </div>
@@ -79,7 +85,9 @@
                     <option value="Accepted">Accepted</option>
                     <option value="Rejected">Rejected</option>
                 </select>
-
+                {% for i in ideas %}
+                    <input type="email" name="idea_creator_mail" value="{{ i.idea_creator_mail }}" class="hidden">
+                {% endfor %}
                 <button class="py-2 px-6 button-submit sm:block">Get Set Go</button>
             </fieldset>
         </form>

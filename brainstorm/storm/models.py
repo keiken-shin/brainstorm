@@ -11,6 +11,7 @@ class Idea(models.Model):
     # Autofill Details
     idea_creator_name = models.CharField(max_length=200, null=True, blank=True)
     idea_creator_mail = models.EmailField(default=None, null=False, blank=False)
+    idea_creator_team = models.CharField(max_length=200, null=True, blank=True)
     idea_creation_date = models.DateTimeField(auto_now_add=True)
 
     # User Filled Details

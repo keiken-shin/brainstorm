@@ -3,10 +3,10 @@
 {% block Title %}Home | {% endblock %}
 
 {% block body %}
-
+{% if user_email in judges %}
 <div class="">
     <div class="w-full h-32 flex items-center justify-center">
-        <h1 class="text-3xl font-bold">Selected Submissions</h1>
+        <h1 class="text-3xl font-bold">Jury Selection</h1>
     </div>
 
     <div class="">
@@ -43,5 +43,9 @@
         </section>
     </div>
 </div>
-
+{% else %}
+<div class="flex items-center justify-center w-full" style="height: calc(100vh - 3rem)">
+    <h2 class="text-3xl">Page Not Found 404</h2>
+</div>
+{% endif %}
 {% endblock %}
