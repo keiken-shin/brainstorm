@@ -25,7 +25,8 @@ def home(request):
     user_name = request.user.first_name
     user_email = request.user.email
     ideas = Idea.objects.all().order_by('-id')
-    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea(request, id):
@@ -37,9 +38,12 @@ def idea(request, id):
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea_form(request):
+    user_name = request.user.first_name
+    user_email = request.user.email
     creator_name = request.user.first_name
     creator_email = request.user.email
-    return render(request, 'storm/form.html', {"creator_email":creator_email, "creator_name":creator_name})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/form.html', {"user_email":user_email, "user_name":user_name, "creator_email":creator_email, "creator_name":creator_name, "judges":judges})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 @csrf_exempt
@@ -83,5 +87,8 @@ def selection(request, id):
 
 
 def jury(request):
+    user_name = request.user.first_name
+    user_email = request.user.email
     ideas = Idea.objects.all()
-    return render(request, 'storm/jury.html', {'ideas':ideas})
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})

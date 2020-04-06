@@ -39,7 +39,9 @@
             <ul class="flex flex-col items-center nav__list h-full">
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:home' %}" class="block nav__link" data-content='Home'>Home</a></li>
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:idea_form' %}" class="block nav__link" data-content='Push Idea'>Push Idea</a></li>
+                {% if user_email in judges %}
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='Jury Panel'>Jury Panel</a></li>
+                {% endif %}
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:logout_user' %}" class="block nav__link" data-content='Logout'>Logout</a></li>
             </ul>
         </nav>
