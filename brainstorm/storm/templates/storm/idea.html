@@ -39,7 +39,7 @@
         {% if i.idea_file %}
         <p class="md:flex-1">
             <span class="text-md text-gray-500 block">Estimated Time Required: </span>
-            <span class="block text-lg"><a href="{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
+            <span class="block text-lg"><a href="/static{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
         </p>
         {% endif %}
     </section>

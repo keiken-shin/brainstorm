@@ -12,7 +12,7 @@
         <div class="mt-6 mb-6">
             <label class="block text-gray-500 text-sm font-bold mb-2">Provide a title for you idea</label>
             <div class="form__input-div">
-                <input type="text" name="idea_title" class="appearance-none py-2 px-3 form__input" placeholder="My Awesome Idea Title">
+                <input type="text" name="idea_title" class="appearance-none py-2 px-3 form__input" placeholder="My Awesome Idea Title" required>
                 <span class="form__input-focus"></span>
             </div>
         </div>
@@ -20,13 +20,13 @@
         <div class="mb-6">
             <label class="block text-gray-500 text-sm font-bold mb-2">Describe your idea</label>
             <div class="form__input-div">
-                <textarea name="idea_description" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="My awesome idea is about...."></textarea>
+                <textarea name="idea_description" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="My awesome idea is about...." required></textarea>
                 <span class="form__input-focus" style="bottom: 7px;"></span>
             </div>
         </div>
         
         <div class="mb-6">
-            <label class="block text-gray-500 text-sm font-bold mb-2">Estimated time required for this idea <em>(in days)</em></label>
+            <label class="block text-gray-500 text-sm font-bold mb-2">Estimated time required for this idea <em>(in days) (Optional)</em></label>
             <div class="form__input-div">
                 <input type="number" name="idea_duration" class="appearance-none py-2 px-3 form__input" placeholder="12">
                 <span class="form__input-focus"></span>
