@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout
 from django.views.decorators.csrf import csrf_exempt
-from .models import Idea, Judge, Judgeselection
+from .models import Idea, Judge, Impact, Improvement_Area
 
 def authentication_check(user):
     return user.is_authenticated
@@ -42,8 +42,10 @@ def idea_form(request):
     user_email = request.user.email
     creator_name = request.user.first_name
     creator_email = request.user.email
+    impact = Impact.objects.all().order_by('id')
+    improvement = Improvement_Area.objects.all().order_by('id')
     judges = [i.judge_mail for i in Judge.objects.all()]
-    return render(request, 'storm/form.html', {"user_email":user_email, "user_name":user_name, "creator_email":creator_email, "creator_name":creator_name, "judges":judges})
+    return render(request, 'storm/form.html', {"user_email":user_email, "user_name":user_name, "creator_email":creator_email, "creator_name":creator_name, "impact":impact, "improvement":improvement, "judges":judges})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 @csrf_exempt
@@ -54,20 +56,22 @@ def idea_submit(request):
         idea_creator_mail = request.user.email
 
         # Idea Details
+        idea_improvement = request.POST.get("idea_improvement")
         idea_title = request.POST.get("idea_title")
         idea_description = request.POST.get("idea_description")
-        idea_duration = request.POST.get("idea_duration")
+        idea_impact = request.POST.get("idea_impact")
         idea_file = request.FILES.get('idea_file')
 
         # Save Idea
         obj = Idea.objects.create(idea_creator_name=idea_creator_name,
                             idea_creator_mail=idea_creator_mail,
+                            idea_improvement=idea_improvement,
                             idea_title=idea_title, 
                             idea_description=idea_description, 
-                            idea_duration=idea_duration, 
+                            idea_impact=idea_impact, 
                             idea_file=idea_file,)
-        send_mail(f'Your ID is {obj.id}',
-                  'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
+        # send_mail(f'Your ID is {obj.id}',
+        #           'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
                         
         return redirect('storm:home')
     return redirect('storm:home')
@@ -81,7 +85,7 @@ def selection(request, id):
         idea_creator_mail = request.POST.get("idea_creator_mail")
         # Update Status and Remark
         Idea.objects.filter(pk=id).update(idea_remark=idea_remark, idea_status=idea_status)
-        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [idea_creator_mail])
+        # send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [idea_creator_mail])
         return redirect('storm:idea', id=id)
     return redirect('storm:home')
 

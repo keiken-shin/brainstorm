@@ -32,6 +32,18 @@
     color: var(--text-white);
 }
 
+.form__select{
+    background-color: var(--text-black);
+}
+
+.form__select:required:invalid{
+    color: var(--placeholder-color);
+}
+
+.form__select option{
+    color: var(--text-light);
+}
+
 .pointer-none{
     pointer-events: none;
 }

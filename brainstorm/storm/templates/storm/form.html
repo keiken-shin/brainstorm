@@ -10,6 +10,24 @@
         <legend class="uppercase font-black md:form__legend md:text-4xl">Fill up your idea</legend>
 
         <div class="mt-6 mb-6">
+            <label class="block text-gray-500 text-sm font-bold mb-2">Improvement Area</label>
+            <div class="form__input-div">
+                <select 
+                    type="number" 
+                    name="idea_improvement" 
+                    class="appearance-none py-2 px-3 form__input form__select" 
+                    required
+                >
+                    <option value="" hidden>--select--</option>
+                    {% for i in improvement %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                <select>
+                <span class="form__input-focus"></span>
+            </div>
+        </div>
+
+        <div class="mb-6">
             <label class="block text-gray-500 text-sm font-bold mb-2">Provide a title for you idea</label>
             <div class="form__input-div">
                 <input type="text" name="idea_title" class="appearance-none py-2 px-3 form__input" placeholder="My Awesome Idea Title" required>
@@ -26,9 +44,14 @@
         </div>
         
         <div class="mb-6">
-            <label class="block text-gray-500 text-sm font-bold mb-2">Estimated time required for this idea <em>(in days) (Optional)</em></label>
+            <label class="block text-gray-500 text-sm font-bold mb-2">Impact Range</label>
             <div class="form__input-div">
-                <input type="number" name="idea_duration" class="appearance-none py-2 px-3 form__input" placeholder="12">
+                <select type="number" name="idea_impact" class="appearance-none py-2 px-3 form__input form__select" required>
+                    <option value="" hidden>--select--</option>
+                    {% for i in impact %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                <select>
                 <span class="form__input-focus"></span>
             </div>
         </div>
