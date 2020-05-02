@@ -5,6 +5,7 @@
 @import './_header.css';
 @import './_home.css';
 @import './_form.css';
+@import './_datatable.css';
 
 :root{
     --text-white: #fff;

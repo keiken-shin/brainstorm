@@ -11,5 +11,7 @@ urlpatterns = [
     path('idea/form/', views.idea_form, name='idea_form'),
     path('idea/submit/', views.idea_submit, name='idea_submit'),
     path('selection/<int:id>/', views.selection, name="selection"),
+    path('comment/<int:id>/', views.comment, name="comment"),
+    path('status/<int:id>/', views.status, name="status"),
     path('jury', views.jury, name='jury'),
 ]

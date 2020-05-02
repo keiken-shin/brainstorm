@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block Title %}Home | {% endblock %}
+{% block Title %}Push Idea | {% endblock %}
 
 {% block body %}
 <form method="POST" enctype="multipart/form-data" class="form">
@@ -61,7 +61,7 @@
             <div class="form__input-div relative form__file-div">
                 <span class="form__file-name form__file-placeholder py-2 px-3 absolute flex items-center w-full h-full pointer-none">Choose a file</span>
                 <div class="form__input z-10">
-                    <input type="file" name="idea_file" class="appearance-none py-2 px-3 w-full h-full form__file">
+                    <input type="file" name="idea_file" class="appearance-none py-2 px-3 w-full h-full form__file" multiple>
                 </div>
                 <span class="form__input-focus"></span>
             </div>

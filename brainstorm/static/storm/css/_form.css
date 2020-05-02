@@ -129,6 +129,15 @@
     }
 }
 
+.comment_box,
+.send-button{
+    height: 3rem;
+}
+
+.send-button i{
+    font-size: 1.5rem;
+}
+
 @media (min-width: 768px){
     .md\:form__legend{
         -webkit-text-stroke: 1px var(--text-light);

@@ -12,98 +12,29 @@
 
     {% if ideas %}
     <div class="idea_box">
+        {% if user_email in judges %}
         <div class="sticky top-0 bg-black flex flex-col items-center md:flex-row">
             <!-- <div class="flex-1">
                 <input type="text" class="search rounded py-2 px-4" placeholder="search ideas...">
             </div> -->
             <ul class="tab flex-1 flex flex-col z-10 mb-2 md:flex-row md:justify-end">
-                <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="all_ideas">All Ideas</li>
-                <li class="p-4 font-bold lowercase cursor-pointer" data-class="your_ideas">Your Ideas</li>
+                <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="new_ideas">New Ideas</li>
+                <li class="p-4 font-bold lowercase cursor-pointer" data-class="selected_ideas">Selected Ideas</li>
             </ul>
         </div>
 
-        <!-- All Ideas -->
-        <ul class="list all_ideas mt-6 grid gap-6 md:grid-cols-3">
-            {% for idea in ideas %}
-            <li class="rounded relative py-3 card">
-                <p class="self-end flex items-center px-4 pb-2 mb-2 card__head">
-                    <span class="flex-1 text-base font-bold card__head__creator">{{idea.idea_creator_name}}</span>
-                    <span class="text-sm card__head__date font-bold"><i class="far fa-clock mr-2"></i>{{idea.idea_creation_date|date}}</span>
-                </p>
-                <h2 class="text-lg font-bold px-4 mb-2 card__title">{{idea.idea_title}}</h2>
-                <p class="px-4 text-base flex flex-col mb-2">
-                    <span class="text-sm text-gray-700 font-bold pb-1">Details</span>
-                    <span class="card__description">{{idea.idea_description}}</span>
-                </p>
-                <div class="flex">
-                    {% if idea.idea_impact %}
-                    <p class="flex-1 px-4 text-base flex flex-col mb-2">
-                        <span class="text-sm text-gray-700 font-bold pb-1">Impact Range</span>
-                        <span class="">{{idea.idea_impact}}</span>
-                    </p>
-                    {% endif %}
-                    <p class="flex-1 px-4 text-base flex flex-col mb-2">
-                        <span class="text-sm text-gray-700 font-bold pb-1">Status</span>
-                        <span class="idea_status">{{idea.idea_status}}</span>
-                    </p>
-                </div>
-                <p class="mb-12"></p>
+        {% include 'storm/new_idea.html' %}
+        
+        {% include 'storm/selected_idea.html' %}
 
-                <div class="absolute bottom-0 py-3 px-4">
-                    <a href="{% url 'storm:idea' id=idea.id %}" class="card__accept bg-purple-700 rounded py-1 px-3 mr-2">View Full Detail</a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+        {% else %}
 
-        <!-- Your Ideas -->
-        <ul class="your_ideas mt-6 hidden grid gap-6 md:grid-cols-3">
-            {% for idea in ideas %}
-            {% if idea.idea_creator_mail == user_email %}
-            <li class="rounded relative py-3 card">
-                <p class="self-end flex items-center px-4 pb-2 mb-2 card__head">
-                    <span class="flex-1 text-base font-bold card__head__creator">{{idea.idea_creator_name}}</span>
-                    <span class="text-sm card__head__date font-bold"><i class="far fa-clock mr-2"></i>{{idea.idea_creation_date|date}}</span>
-                </p>
-                <h2 class="text-lg font-bold px-4 mb-2">{{idea.idea_title}}</h2>
-                <p class="px-4 text-base flex flex-col mb-2">
-                    <span class="text-sm text-gray-700 font-bold pb-1">Details</span>
-                    <span class="card__description">{{idea.idea_description}}</span>
-                </p>
-                <div class="flex">
-                    {% if idea.idea_impact %}
-                    <p class="flex-1 px-4 text-base flex flex-col mb-2">
-                        <span class="text-sm text-gray-700 font-bold pb-1">Impact Range</span>
-                        <span class="">{{idea.idea_impact}}</span>
-                    </p>
-                    {% endif %}
-                    <p class="flex-1 px-4 text-base flex flex-col mb-2">
-                        <span class="text-sm text-gray-700 font-bold pb-1">Status</span>
-                        <span class="idea_status">{{idea.idea_status}}</span>
-                    </p>
-                </div>
+        {% include 'storm/your_idea.html' %}
 
-                <p class="mb-12"></p>
-
-                <div class="absolute bottom-0 py-3 px-4">
-                    <a href="{% url 'storm:idea' id=idea.id %}" class="card__accept bg-purple-700 rounded py-1 px-3 mr-2">View Full Detail</a>
-                </div>
-            </li>
-            {% endif %}
-            {% endfor %}
-        </ul>
+        {% endif %}
     </div>
     {% else %}
-    <div class="flex flex-col-reverse md:flex-row items-center empty">
-        <div class="flex-1 overflow-hidden h-full">
-            <img src="{% static 'storm/images/empty.svg' %}" alt="" class="w-full h-full">
-        </div>
-        <div class="flex-1">
-            <h2 class="text-2xl font-bold md:text-3xl">Sorry the box is empty</h2>
-            <p>Please put your idea inside the box and make us happy</p>
-            <a href="{% url 'storm:idea_form' %}" class="px-6 py-2 text-center md:w-64 login-button">Get started</a>
-        </div>
-    </div>
+        {% include 'storm/empty.html' %}
     {% endif %}
 </div>
 

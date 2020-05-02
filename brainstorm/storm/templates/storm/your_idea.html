@@ -1,0 +1,90 @@
+{% if user_email in your_idea_mail %}
+<div class="sticky top-0 bg-black flex flex-col items-center md:flex-row">
+    <ul class="tab flex-1 flex flex-col z-10 mb-2 md:flex-row md:justify-end">
+        <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="all_ideas">All ideas</li>
+        <li class="p-4 font-bold lowercase cursor-pointer" data-class="selected_ideas">Selected Ideas</li>
+    </ul>
+</div>
+<ul class="tab_section all_ideas mt-6 grid gap-6 md:grid-cols-3">
+    {% for idea in ideas %}
+    {% if idea.idea_creator_mail == user_email %}
+
+    <li class="rounded relative py-3 card transition duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-100">
+        <p class="self-end flex items-center px-4 pb-2 mb-2 card__head">
+            <span class="flex-1 text-base font-bold card__head__creator">{{idea.idea_creator_name}}</span>
+            <span class="text-sm card__head__date font-bold"><i class="far fa-clock mr-2"></i>{{idea.idea_creation_date|date}}</span>
+        </p>
+        <h2 class="text-lg font-bold px-4 mb-2">{{idea.idea_title}}</h2>
+
+        <div class="flex flex-col md:flex-row">
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Improvement Area</span>
+                <span class="card__improvement">{{idea.idea_improvement}}</span>
+            </p>
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Status</span>
+                <span class="card__status">{{idea.idea_status}}</span>
+            </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row">
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Impact Range</span>
+                <span class="">{{idea.idea_impact}}</span>
+            </p>
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Team</span>
+                <span class="idea_team">Analytics</span>
+            </p>
+        </div>
+
+        <a href="{% url 'storm:idea' id=idea.id %}" class="block absolute top-0 bottom-0 left-0 right-0 z-10"></a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+</ul>
+
+<ul class="tab_section selected_ideas hidden mt-6 grid gap-6 md:grid-cols-3">
+    {% for idea in ideas %}
+    {% if idea.id in selected_ideas %}
+    {% if idea.idea_creator_mail == user_email %}
+    <li class="rounded relative py-3 card transition duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-100">
+        <p class="self-end flex items-center px-4 pb-2 mb-2 card__head">
+            <span class="flex-1 text-base font-bold card__head__creator">{{idea.idea_creator_name}}</span>
+            <span class="text-sm card__head__date font-bold"><i class="far fa-clock mr-2"></i>{{idea.idea_creation_date|date}}</span>
+        </p>
+        <h2 class="text-lg font-bold px-4 mb-2">{{idea.idea_title}}</h2>
+
+        <div class="flex flex-col md:flex-row">
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Improvement Area</span>
+                <span class="card__improvement">{{idea.idea_improvement}}</span>
+            </p>
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Status</span>
+                <span class="card__status">{{idea.idea_status}}</span>
+            </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row">
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Impact Range</span>
+                <span class="">{{idea.idea_impact}}</span>
+            </p>
+            <p class="flex-1 px-4 text-base flex flex-col mb-2">
+                <span class="text-sm text-gray-700 font-bold pb-1">Team</span>
+                <span class="idea_team">Analytics</span>
+            </p>
+        </div>
+
+        <a href="{% url 'storm:idea' id=idea.id %}" class="block absolute top-0 bottom-0 left-0 right-0 z-10"></a>
+    </li>
+
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+{% include 'storm/empty.html' %}
+{% endif %}

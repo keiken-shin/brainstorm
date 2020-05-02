@@ -14,7 +14,11 @@ const ideaImprovement = form.querySelector('[name="idea_improvement"]'),
 
 formFile.addEventListener('change', () => {
     if(formFile.value){
-        formFileName.textContent = formFile.value.slice(12, formFile.value.length);
+        if(formFile.files.length === 1){
+            formFileName.textContent = formFile.value.slice(12, formFile.value.length);
+        }else{
+            formFileName.textContent = `${formFile.files.length} files selected`;
+        }
         formFileName.classList.remove('form__file-placeholder');
         formFileName.classList.add('form__file-selected');
         formFile.parentElement.style = 'border-bottom-color: var(--glitch-2);';
@@ -39,7 +43,10 @@ form.addEventListener('submit', (e) => {
     formData.append("idea_title", ideaTitle.value);
     formData.append("idea_description", ideaDescription.value);
     formData.append("idea_impact", ideaImpact.value);
-    formData.append("idea_file", formFile.files[0]);
+
+    for(let i=0; i<formFile.files.length; i++){
+        formData.append(`idea_file_${i+1}`, formFile.files[i]);
+    }
 
     fetch("/idea/submit/", {
         method: 'POST',

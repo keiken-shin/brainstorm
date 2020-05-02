@@ -1,0 +1,125 @@
+/*Overrides for Tailwind CSS */
+
+.table-div,
+.table{
+    background-color: var(--header-base);
+}
+
+/*Form fields*/
+.dataTables_wrapper select,
+.dataTables_wrapper .dataTables_filter input {
+    color: var(--text-light); 	
+    padding: .5rem 1rem;
+    line-height: 1.25;
+    border: 1px solid var(--placeholder-color);
+    border-radius: .25rem; 		
+    background-color: var(--header-base);
+}
+
+/*Row Hover*/
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color: var(--header-base);	/*bg-indigo-100*/
+}
+
+/*Pagination Buttons*/
+.dataTables_wrapper .dataTables_paginate .paginate_button		{
+    font-weight: 700;				/*font-bold*/
+    border-radius: .25rem;			/*rounded*/
+    border: 1px solid transparent;	/*border border-transparent*/
+}
+
+/*Pagination Buttons - Current selected */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current	{
+    color: var(--text-white) !important;				/*text-white*/
+    font-weight: 700;					/*font-bold*/
+    border-radius: .25rem;				/*rounded*/
+    background: var(--card-title) !important;		/*bg-indigo-500*/
+    border: 1px solid transparent;		/*border border-transparent*/
+}
+
+/*Pagination Buttons - Hover */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover		{
+    color: var(--text-white) !important;
+    font-weight: 700;
+    border-radius: .25rem;
+    background: var(--card-title) !important;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+/*Add padding to bottom border */
+table.dataTable.no-footer {
+    border-bottom: 1px solid var(--card-date);
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+/*Change colour of responsive icon*/
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+    background-color: var(--header-base) !important; /*bg-indigo-500*/
+}
+
+/* Table Row */
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd,
+table.dataTable tbody tr{
+    background-color: var(--header-base) !important;
+    border-bottom: 1px solid #fff;
+}
+
+/* Table Text */
+.dataTables_wrapper .dataTables_length, 
+.dataTables_wrapper .dataTables_filter, 
+.dataTables_wrapper .dataTables_info, 
+.dataTables_wrapper .dataTables_processing, 
+.dataTables_wrapper .dataTables_paginate{
+    color: var(--text-light) !important;
+}
+
+.dtr-title{
+    --text-opacity: 1;
+    color: #a0aec0;
+    color: rgba(160,174,192,var(--text-opacity));
+}
+
+table.dataTable>tbody>tr.child ul.dtr-details>li {
+    border-bottom: 1px solid var(--placeholder-color) !important;
+}
+
+#allIdeas tr td{
+    vertical-align: top;
+}
+
+.filter-div{
+    background: var(--card-base);
+}
+
+/* DateRange Picker */
+.daterangepicker{
+    background-color: var(--header-base) !important;
+    border: 1px solid var(--placeholder-color) !important;
+}
+
+.daterangepicker .drp-buttons{
+    border-top: 1px solid var(--placeholder-color) !important;
+}
+
+.daterangepicker .calendar-table {
+    border: 1px solid var(--header-base) !important;
+    background-color: var(--header-base) !important;
+}
+
+.daterangepicker td.off, 
+.daterangepicker td.off.in-range, 
+.daterangepicker td.off.start-date, 
+.daterangepicker td.off.end-date{
+    background-color: var(--card-base) !important;
+}
+
+.daterangepicker td.available:hover, 
+.daterangepicker th.available:hover{
+    background-color: var(--card-date) !important;
+}
+
+.daterangepicker:after {
+    border-bottom: 6px solid #222 !important;
+}

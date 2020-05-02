@@ -9,10 +9,34 @@
 <div class="md:w-3/4 md:m-auto">
     <section class="mb-4 flex items-center">
         <h1 class="flex-1 text-2xl font-bold md:text-3xl">{{i.idea_title}}</h1>
-        <a onclick="history.back()" class="bg-blue-300 text-blue-800 p-2 rounded cursor-pointer hidden md:block"><i class="fas fa-chevron-left mr-2"></i> Back to home</a>
+        <a href="{% url 'storm:home' %}" class="bg-blue-300 text-blue-800 p-2 rounded cursor-pointer hidden md:block"><i class="fas fa-chevron-left mr-2"></i> Back to home</a>
     </section>
 
-    <p class="w-24 mb-8 status py-1 px-2 rounded text-center border">{{ i.idea_status }}</p>
+    <span class="idea_id hidden">{{i.id}}</span>
+
+    {% for j in idea_qc %}
+    {% if j.idea_qc_status == 'Accepted' %}
+    <div class="mb-8">
+        <label for="" class="block text-gray-600 mb-1">Idea Status</label>
+        {% if i.idea_status == 'Cancel' %}
+        <span class="bg-red-900 px-2 py-1 rounded">{{ i.idea_status }}</span>
+        {% elif i.idea_status == 'Close' %}
+        <span class="bg-blue-900 px-2 py-1 rounded">{{ i.idea_status }}</span>
+        {% else %}
+        <form action="" class="status_form">{% csrf_token %}
+            <select name="idea_status" class="py-2 px-3 form__select w-1/4 rounded status border cursor-pointer">
+                <option value="">--Status--</option>
+                <option value="WIP">WIP</option>
+                <option value="Implemented">Implemented</option>
+                <option value="Hold">Hold</option>
+                <option value="Close">Close</option>
+                <option value="Cancel">Cancel</option>
+            </select>
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
 
     <section class="mb-8">
         <p class="font-semibold flex flex-col md:flex-row text-purple-600">
@@ -33,21 +57,41 @@
         </p>
     </section>
 
-    {% if i.idea_duration or i.idea_file %}
-    <section class="mb-8 flex flex-col md:flex-row">
-        {% if i.idea_duration %}
-        <p class="md:flex-1">
-            <span class="text-md text-gray-500 block">Documented Detail: </span>
-            <span class="block text-lg">{{ i.idea_duration }} days</span>
+    <section class="flex flex-col md:flex-row mb-8">
+        <p class="flex-1">
+            <span class="block text-md text-gray-500">Improvement Area</span>
+            <span class="block text-lg">{{ i.idea_improvement }}</span>
         </p>
-        {% endif %}
-    
-        {% if i.idea_file %}
-        <p class="md:flex-1">
-            <span class="text-md text-gray-500 block">Estimated Time Required: </span>
-            <span class="block text-lg"><a href="/static{{i.idea_file.url}}" class="text-indigo-300 underline">{{ i.idea_file }}</a></span>
+
+        <p class="flex-1">
+            <span class="block text-md text-gray-500">Impact Range</span>
+            <span class="block text-lg">{{ i.idea_impact }}</span>
         </p>
-        {% endif %}
+    </section>
+
+    {% if i.idea_file_1 %}
+    <section class="mb-8 md:w-2/3">
+        <div class="md:flex-1 border-t border-b border-gray-900 py-2">
+            <p class="text-md text-gray-500 flex cursor-pointer document-caret">
+                <span class="flex-1">Attached Document(s):</span>
+                <span class="bg-gray-900 px-2 rounded"><i class="fas fa-caret-down"></i></span>
+            </p>
+            <ul class="text-lg bg-gray-900 px-6 py-2 mt-2 divide-y divide-gray-700 rounded drop-caret hidden">
+                <li class="mb-1"><a href="/static{{i.idea_file_1.url}}" class="text-indigo-300">{{ i.idea_file_1 }}</a></li>
+                {% if i.idea_file_2 %}
+                <li class="mb-1"><a href="/static{{i.idea_file_2.url}}" class="text-indigo-300">{{ i.idea_file_2 }}</a></li>
+                {% if i.idea_file_3 %}
+                <li class="mb-1"><a href="/static{{i.idea_file_3.url}}" class="text-indigo-300">{{ i.idea_file_3 }}</a></li>
+                {% if i.idea_file_4 %}
+                <li class="mb-1"><a href="/static{{i.idea_file_4.url}}" class="text-indigo-300">{{ i.idea_file_4 }}</a></li>
+                {% if i.idea_file_5 %}
+                <li class=""><a href="/static{{i.idea_file_5.url}}" class="text-indigo-300">{{ i.idea_file_5 }}</a></li>
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                {% endif %}
+            </ul>
+        </div>
     </section>
     {% endif %}
 
@@ -56,43 +100,93 @@
         <p class="text-lg">{{ i.idea_description }}</p>
     </article>
 
-    {% if i.idea_remark %}
+    {% if idea_qc %}
     <article class="mb-8">
-        <p class="text-md text-gray-500 mb-2">Remark</p>
-        <p class="text-lg remark-tab">{{ i.idea_remark }}</p>
+        {% for qc in idea_qc %}
+        <p class="text-md text-gray-500 mb-2">
+            {% if qc.idea_qc_status == 'Accepted' %}Accept 
+            {% elif qc.idea_qc_status == 'Rejected' %}Reject 
+            {% endif %}
+            Remark
+        </p>
+        <p class="text-lg remark-tab">{{ qc.idea_qc_remark }}</p>
+        {% endfor %}
     </article>
     {% endif %}
 
-    {% if i.idea_status == 'Pending' %}
-        {% if user_email in judges %}
-        <section class="judge-action">
-            <a class="button__accept cursor-pointer bg-purple-700 py-2 px-8 mr-3">Accept</a>
-            <a class="button__reject cursor-pointer border border-red-500 text-red-500 py-2 px-8">Reject</a>
-        </section>
+    {% if i.id not in idea_qc_id %}
+    {% if user_email in judges %}
+    <!-- Accept/Reject Form -->
+    <section class="judge-action">
+        <a class="button__accept cursor-pointer bg-purple-700 py-2 px-8 mr-3">Accept</a>
+        <a class="button__reject cursor-pointer border border-red-500 text-red-500 py-2 px-8">Reject</a>
+    </section>
+    <form action="{% url 'storm:selection' id=i.id %}" method="POST" class="judge-form hidden" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form__fieldset">
+            <div class="mb-6">
+                <label class="block text-gray-500 text-sm font-bold mb-2 remark-label">Reason for acceptance</label>
+                <div class="form__input-div">
+                    <textarea name="idea_qc_remark" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="So the reason is..." required></textarea>
+                    <span class="form__input-focus" style="bottom: 7px;"></span>
+                </div>
+            </div>
 
-        <form action="{% url 'storm:selection' id=i.id %}" method="POST" class="judge-form hidden" enctype="multipart/form-data">
-            {% csrf_token %}
+            <select name="idea_qc_status" class="hidden">
+                <option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <button class="py-2 px-6 button-submit sm:block">Get Set Go</button>
+        </fieldset>
+    </form>
+    {% endif %}
+    {% endif %}
+
+    {% for j in idea_qc %}
+    {% if j.idea_qc_status == 'Accepted' %}
+    <!-- Comment Box -->
+    <h1 class="text-gray-500 mb-4">Comment Section</h1>
+
+    <section class="mt-4 border border-gray-800 p-4 md:w-2/3">
+
+        <form action="" method="POST" class="comment-form mb-2">{% csrf_token %}
             <fieldset class="form__fieldset">
-                <div class="mb-6">
-                    <label class="block text-gray-500 text-sm font-bold mb-2 remark-label">Reason for acceptance</label>
+                <!-- <label class="block text-gray-500 text-sm font-bold mb-2">Comment</label> -->
+                <div class="flex">
                     <div class="form__input-div">
-                        <textarea name="idea_remark" class="appearance-none py-2 px-3 form__input form__textarea"  placeholder="So the reason is..." required></textarea>
+                        <textarea name="comment" class="appearance-none py-2 px-3 form__input form__textarea comment_box"  placeholder="Your Comment..." required></textarea>
                         <span class="form__input-focus" style="bottom: 7px;"></span>
                     </div>
+                    <button class="send-button bg-purple-700 text-gray-200 px-4"><i class="fas fa-arrow-right"></i></button>
                 </div>
-
-                <select name="idea_status" class="hidden">
-                    <option value="Accepted">Accepted</option>
-                    <option value="Rejected">Rejected</option>
-                </select>
-                {% for i in ideas %}
-                    <input type="email" name="idea_creator_mail" value="{{ i.idea_creator_mail }}" class="hidden">
-                {% endfor %}
-                <button class="py-2 px-6 button-submit sm:block">Get Set Go</button>
             </fieldset>
         </form>
-        {% endif %}
+
+        <section class="comment-list">
+            {% for k in comments %}
+            {% if k.commenter_mail != user_email %}
+            <div class="border-l-4 px-4 py-2 bg-gray-900 mb-2">
+                <p class="text-sm flex">
+                    <span class="text-green-500 flex-1">{{k.commenter_name}}</span>
+                    <span class="text-gray-600">{{k.comment_date|date}}</span>
+                </p>
+                <p>{{k.comment}}</p>
+            </div>
+            {% else %}
+            <div class="border-r-4 px-4 py-2 bg-teal-900 mb-2">
+                <p class="text-sm flex flex-row-reverse">
+                    <span class="text-gray-400">{{k.commenter_name}}</span>
+                    <span class="text-gray-500 flex-1">{{k.comment_date}}</span>
+                </p>
+                <p class="text-right">{{k.comment}}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+    </section>
     {% endif %}
+    {% endfor %}
+
 </div>
 
 {% endfor %}
@@ -101,5 +195,16 @@
 
 {% block scripts %}
 {% load staticfiles %}
-<script src="{% static 'storm/js/main.js' %}"></script>
+<script>
+    const userName = `{{user_name}}`;
+
+    {% for i in ideas %}
+    {% if i.idea_status != None %}
+    const statusValue = `{{i.idea_status}}`;
+    {% else %}
+    const statusValue = '';
+    {% endif %}
+    {% endfor %}
+</script>
+<script src="{% static 'storm/js/idea.js' %}"></script>
 {% endblock %}

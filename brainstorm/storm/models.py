@@ -30,11 +30,16 @@ class Idea(models.Model):
     idea_creation_date = models.DateTimeField(auto_now_add=True)
 
     # User Filled Details
+    idea_close_date = models.DateTimeField(default=None, null=True, blank=True)
     idea_improvement = models.CharField(default=None, max_length=200, null=False, blank=False)
     idea_title = models.CharField(default=None, max_length=200, null=False, blank=False)
     idea_description = models.TextField(default=None, null=True, blank=True)
     idea_impact = models.CharField(default=None, max_length=200, null=False, blank=False)
-    idea_file = models.FileField(upload_to='', blank=True)
+    idea_file_1 = models.FileField(upload_to='', null=True, blank=True)
+    idea_file_2 = models.FileField(upload_to='', null=True, blank=True)
+    idea_file_3 = models.FileField(upload_to='', null=True, blank=True)
+    idea_file_4 = models.FileField(upload_to='', null=True, blank=True)
+    idea_file_5 = models.FileField(upload_to='', null=True, blank=True)
 
     # Judge Status
     idea_status = models.CharField(max_length=200, default=None, null=True, blank=True, choices=[('WIP', 'WIP'), ('Implemented', 'Implemented'), ('Hold', 'Hold'), ('Cancel', 'Cancel'), ('Close', 'Close')])
@@ -57,7 +62,8 @@ class Idea_QC(models.Model):
     idea_qc_status = models.CharField(max_length=200, default='Pending', choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')])
 
     def __str__(self):
-        return self.idea_id
+        qc_data = str(self.idea_id) + ', ' + self.idea_qc_name + ', ' + self.idea_qc_status
+        return qc_data
 
 # Comment Section
 class Comment(models.Model):
@@ -73,4 +79,5 @@ class Comment(models.Model):
     comment = models.TextField(default=None, null=False, blank=False)
 
     def __str__(self):
-        return (self.comment_id, self.commenter_name)
+        comment_data = str(self.comment_id) + ', ' + self.commenter_name
+        return comment_data

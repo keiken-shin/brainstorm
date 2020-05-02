@@ -18,7 +18,7 @@
     <!-- FontAwesome CDN -->
     <script async src="https://kit.fontawesome.com/8aa13c88ab.js" crossorigin="anonymous"></script>
 
-    <title>{% block title %}{% endblock %} Brainstorm</title>
+    <title>{% block Title %}{% endblock %} Brainstorm</title>
 </head>
 <body>
     <header class="h-screen w-20 flex flex-col items-center fixed header">
@@ -40,7 +40,7 @@
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:home' %}" class="block nav__link" data-content='Home'>Home</a></li>
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:idea_form' %}" class="block nav__link" data-content='Push Idea'>Push Idea</a></li>
                 {% if user_email in judges %}
-                <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='View Ideas'>View Ideas</a></li>
+                <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='View All'>View All</a></li>
                 {% endif %}
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:logout_user' %}" class="block nav__link" data-content='Logout'>Logout</a></li>
             </ul>
