@@ -28,7 +28,7 @@
                     </h1>
                     <section class="filter-all hidden">
                         <div id="filters" class="mt-2 grid md:grid-cols-6 md:gap-10"></div>
-                        <form method="post" action="" id="dateRange" class="mt-2">{% csrf_token %}
+                        <form method="post" action="{% url 'storm:filterdate' %}" id="dateRange" class="mt-2">{% csrf_token %}
                             <div>
                                 <label for="" class="text-sm text-gray-600">Create Date</label>
                                 <div id="date_filter" class="">
@@ -81,9 +81,27 @@
 								--
 								{% endif %}
 							</td>
-							<td>Noida</td>
-							<td>Analytics</td>
-							<td>Sanjeev Rathore</td>
+							<td>
+								{% for j in df.itertuples %} 
+								{% if i.idea_join.idea_creator_mail == j.email  %}
+								{{ j.location }}
+								{% endif %} 
+								{% endfor %}
+							</td>
+							<td>
+								{% for j in df.itertuples %} 
+								{% if i.idea_join.idea_creator_mail == j.email  %}
+								{{ j.dept }}
+								{% endif %} 
+								{% endfor %}
+							</td>
+							<td>
+								{% for j in df.itertuples %} 
+								{% if i.idea_join.idea_creator_mail == j.email  %}
+								{{ j.first_level }}
+								{% endif %} 
+								{% endfor %}
+							</td>
 							<td class="description">{{i.idea_join.idea_description}}</td>
 							<td>
 								<span class="inline-flex flex-col">

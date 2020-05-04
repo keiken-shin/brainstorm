@@ -7,6 +7,8 @@ from django.contrib.auth import login, logout
 from django.views.decorators.csrf import csrf_exempt
 from .models import Idea, Judge, Impact, Improvement_Area, Idea_QC, Comment
 from datetime import datetime
+import pandas as pd
+# import sqlalchemy
 
 def authentication_check(user):
     return user.is_authenticated
@@ -23,6 +25,14 @@ def logout_user(request):
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def home(request):
+    try:
+        engine = create_engine('postgresql://analytics:analytics@123@ec2-34-246-108-106.eu-west-1.compute.amazonaws.com:5432/iadatabase')
+        df_aws = pd.read_sql_query('select * from "headcount_master"', con=engine)
+        df = df_aws[['Email Id', 'Sub-Department', 'DF Site', '1st Level Reporting', '2nd Level Reporting']]
+        df.columns = ['email', 'dept', 'location', 'first_level', 'second_level']
+    except:
+        data = [['anubhav.kumar27@gmail.com', 'Analytics', 'Noida', 'Sanjeev Rathore', 'Sanjeev Agarwal']]
+        df = pd.DataFrame(data, columns = ['email', 'dept', 'location', 'first_level', 'second_level']) 
     user_name = request.user.first_name
     user_email = request.user.email
     ideas = Idea.objects.all().order_by('-id')
@@ -30,18 +40,26 @@ def home(request):
     selected_ideas = [i.idea_id for i in Idea_QC.objects.filter(idea_qc_status='Accepted')]
     your_idea_mail = [i.idea_creator_mail for i in Idea.objects.all()]
     judges = [i.judge_mail for i in Judge.objects.all()]
-    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "new_ideas":new_ideas, "selected_ideas":selected_ideas, "your_idea_mail":your_idea_mail})
+    return render(request, 'storm/home.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "new_ideas":new_ideas, "selected_ideas":selected_ideas, "your_idea_mail":your_idea_mail, "df":df})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea(request, id):
+    try:
+        engine = create_engine('postgresql://analytics:analytics@123@ec2-34-246-108-106.eu-west-1.compute.amazonaws.com:5432/iadatabase')
+        df_aws = pd.read_sql_query('select * from "headcount_master"', con=engine)
+        df = df_aws[['Email Id', 'Sub-Department', 'DF Site', '1st Level Reporting', '2nd Level Reporting']]
+        df.columns = ['email', 'dept', 'location', 'first_level', 'second_level']
+    except:
+        data = [['anubhav.kumar27@gmail.com', 'Analytics', 'Noida', 'Sanjeev Rathore', 'Sanjeev Agarwal']]
+        df = pd.DataFrame(data, columns = ['email', 'dept', 'location', 'first_level', 'second_level']) 
     user_name = request.user.first_name
     user_email = request.user.email
-    ideas = Idea.objects.filter(id__iexact = id)
+    ideas = Idea.objects.filter(pk = id)
     idea_qc_id = [i.idea_id for i in Idea_QC.objects.all()]
     idea_qc = [i for i in Idea_QC.objects.filter(idea_id=id)]
     comments = Comment.objects.filter(comment_id=id).order_by('-id')
     judges = [i.judge_mail for i in Judge.objects.all()]
-    return render(request, 'storm/idea.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "idea_qc_id":idea_qc_id, "idea_qc":idea_qc, "comments":comments})
+    return render(request, 'storm/idea.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "idea_qc_id":idea_qc_id, "idea_qc":idea_qc, "comments":comments, "df":df})
 
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def idea_form(request):
@@ -92,6 +110,7 @@ def idea_submit(request):
         return redirect('storm:home')
     return redirect('storm:home')
 
+# Accept or Reject IDEA_QC
 @user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def selection(request, id):
     if request.method =="POST":
@@ -119,6 +138,7 @@ def selection(request, id):
     return redirect('storm:home')
 
 # Comment Data
+@user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def comment(request, id):
     if request.method == 'POST':
         # Creator Detail
@@ -142,6 +162,7 @@ def comment(request, id):
     return redirect('storm:idea', id=id)
 
 # Update Idea Status
+@user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def status(request, id):
     if request.method == 'POST':
         idea_close_date = datetime.now()
@@ -152,12 +173,40 @@ def status(request, id):
         return HttpResponse('')
     return redirect('storm:idea', id=id)
 
-# Add Judge
+# All Ideas
+@user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
 def jury(request):
+    try:
+        engine = create_engine('postgresql://analytics:analytics@123@ec2-34-246-108-106.eu-west-1.compute.amazonaws.com:5432/iadatabase')
+        df_aws = pd.read_sql_query('select * from "headcount_master"', con=engine)
+        df = df_aws[['Email Id', 'Sub-Department', 'DF Site', '1st Level Reporting', '2nd Level Reporting']]
+        df.columns = ['email', 'dept', 'location', 'first_level', 'second_level']
+    except:
+        data = [['anubhav.kumar27@gmail.com', 'Analytics', 'Noida', 'Sanjeev Rathore', 'Sanjeev Agarwal']]
+        df = pd.DataFrame(data, columns = ['email', 'dept', 'location', 'first_level', 'second_level']) 
     user_name = request.user.first_name
     user_email = request.user.email
     ideas = Idea.objects.all()
     judges = [i.judge_mail for i in Judge.objects.all()]
     all_ideas = Idea_QC.objects.all()
-    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "all_ideas":all_ideas})
+    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "all_ideas":all_ideas, "df":df})
 
+
+@user_passes_test(authentication_check, login_url='/', redirect_field_name=None)
+@csrf_exempt
+def filterdate(request):
+    judges = [i.judge_mail for i in Judge.objects.all()]
+    if request.method == 'POST':
+        datepicker = request.POST.get('datepicker')
+        datepicker = datepicker.split(' - ')
+        date_from = datepicker[0].split('/')
+        date_from = date_from[2] + '-' + date_from[0] + '-' + date_from[1]
+        date_to = datepicker[1].split('/')
+        date_to = date_to[2] + '-' + date_to[0] + '-' + date_to[1]
+        user_name = request.user.first_name
+        user_email = request.user.email
+        # ideas = Idea.objects.filter(idea_creation_date=[date_from, date_to])
+        # ideas = [i.idea_creation_date for i in Idea.objects.all()]
+        # print(ideas)
+        return render(request, 'storm/jury.html', {})
+    return redirect('storm:jury')

@@ -46,11 +46,13 @@
             </span>
             <span class="flex flex-col md:flex-1 text-sm">
             <span class="mb-2"><i class="fas fa-users mr-2"></i>
-                {% if i.idea_creator_team %}
-                    {{ i.idea_creator_team }}
+                {% for j in df.itertuples %} 
+                {% if i.idea_creator_mail == j.email  %}
+                    {{ j.dept }}
                 {% else %}
                     No Team Record
-                {% endif %}
+                {% endif %} 
+                {% endfor %} 
             </span>
             <span class=""><i class="far fa-clock mr-2"></i>{{i.idea_creation_date|date}}</span>
             </span>
