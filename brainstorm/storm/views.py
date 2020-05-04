@@ -154,5 +154,6 @@ def jury(request):
     user_email = request.user.email
     ideas = Idea.objects.all()
     judges = [i.judge_mail for i in Judge.objects.all()]
+    
     return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})
 

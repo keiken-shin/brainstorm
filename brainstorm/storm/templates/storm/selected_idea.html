@@ -1,5 +1,5 @@
-<!-- Your Ideas -->
-{% if ideas %}
+<!-- Selected Ideas -->
+{% if selected_ideas %}
 <ul class="tab_section selected_ideas mt-6 hidden grid gap-6 md:grid-cols-3">
     {% for idea in ideas %}
     {% if idea.id in selected_ideas %}
@@ -42,5 +42,5 @@
     {% endfor %}
 </ul>
 {% else %}
-<p class="bg-gray-800 p-4 selected_ideas mt-6 hidden text-center rounded md:w-2/3 md:m-auto"><i class="far fa-folder-open mr-4"></i>No Selected Idea! Head back to new ideas tab and select some</p>
+<p class="bg-gray-800 p-4 tab_section selected_ideas mt-6 hidden text-center rounded md:w-2/3 md:m-auto"><i class="far fa-folder-open mr-4"></i>No Selected Idea! Head back to new ideas tab and select some</p>
 {% endif %}
