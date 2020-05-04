@@ -63,23 +63,49 @@
 						</tr>
 					</thead>
 					<tbody>
+						{% for i in all_ideas %}
 						<tr>
-							<td>1</td>
-							<td>Quality</td>
-							<td>It's a big title</td>
-							<td>Anubhav</td>
-							<td>Several People</td>
-							<td>Accepted</td>
-							<td>2011/04/25</td>
-							<td>2011/05/15</td>
-							<td>Implemented</td>
-							<td>--</td>
+							<td>{{i.idea_join.id}}</td>
+							<td>{{i.idea_join.idea_improvement}}</td>
+							<td>{{i.idea_join.idea_title}}</td>
+							<td>{{i.idea_join.idea_creator_name}}</td>
+							<td>{{i.idea_join.idea_impact}}</td>
+							<td>{{i.idea_qc_status}}</td>
+							<td>{{i.idea_join.idea_creation_date|date}}</td>
+							<td>{{i.idea_qc_date|date}}</td>
+							<td>{{i.idea_join.idea_status}}</td>
+							<td>
+								{% if i.idea_join.idea_status == "Close" and i.idea_join.idea_status == "Cancel" %}
+									{{i.idea_join.idea_close_date}}
+								{% else %}
+								--
+								{% endif %}
+							</td>
 							<td>Noida</td>
 							<td>Analytics</td>
 							<td>Sanjeev Rathore</td>
-							<td class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem, consectetur recusandae, nostrum animi ab quod veniam incidunt est dicta praesentium ea labore. Tempore et veritatis cum dolore at labore recusandae.</td>
-							<td>mart.png, glab.png</td>
-                        </tr>
+							<td class="description">{{i.idea_join.idea_description}}</td>
+							<td>
+								<span class="inline-flex flex-col">
+								{% if i.idea_join.idea_file_1 %}
+								<a href="/static{{i.idea_file_1.url}}" class="text-indigo-300">{{ i.idea_join.idea_file_1 }}</a>
+								{% if i.idea_join.idea_file_2 %}
+								<a href="/static{{i.idea_file_2.url}}" class="text-indigo-300">{{ i.idea_join.idea_file_2 }}</a>
+								{% if i.idea_join.idea_file_3 %}
+								<a href="/static{{i.idea_file_3.url}}" class="text-indigo-300">{{ i.idea_join.idea_file_3 }}</a>
+								{% if i.idea_join.idea_file_4 %}
+								<a href="/static{{i.idea_file_4.url}}" class="text-indigo-300">{{ i.idea_join.idea_file_4 }}</a>
+								{% if i.idea_join.idea_file_5 %}
+								<a href="/static{{i.idea_file_5.url}}" class="text-indigo-300">{{ i.idea_join.idea_file_5 }}</a>
+								{% endif %}
+								{% endif %}
+								{% endif %}
+								{% endif %}
+								{% endif %}
+								</span>
+							</td>
+						</tr>
+						{% endfor %}
 					</tbody>
 					
 				</table>

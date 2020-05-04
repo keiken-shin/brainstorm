@@ -56,6 +56,7 @@ class Idea_QC(models.Model):
     idea_qc_name = models.CharField(max_length=200, null=True, blank=True)
     idea_qc_mail = models.EmailField(default=None, null=False, blank=False)
     idea_qc_date = models.DateTimeField(auto_now_add=True)
+    idea_join = models.ForeignKey(Idea, on_delete=models.CASCADE)
 
     # QC Details
     idea_qc_remark = models.TextField(default=None, null=True, blank=True)
@@ -74,6 +75,7 @@ class Comment(models.Model):
     commenter_name = models.CharField(max_length=200, null=True, blank=True)
     commenter_mail = models.EmailField(default=None, null=False, blank=False)
     comment_date = models.DateTimeField(auto_now_add=True)
+    comment_join = models.ForeignKey(Idea, on_delete=models.CASCADE)
 
     # Comment
     comment = models.TextField(default=None, null=False, blank=False)

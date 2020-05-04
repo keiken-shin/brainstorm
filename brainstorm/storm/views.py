@@ -101,6 +101,7 @@ def selection(request, id):
 
         # Accept/Reject
         idea_id = id
+        idea_join = Idea.objects.get(pk=id)
         idea_qc_remark = request.POST.get("idea_qc_remark")
         idea_qc_status = request.POST.get("idea_qc_status")
 
@@ -108,6 +109,7 @@ def selection(request, id):
         Idea_QC.objects.create(idea_id=idea_id,
                             idea_qc_name=idea_qc_name,
                             idea_qc_mail=idea_qc_mail,
+                            idea_join=idea_join,
                             idea_qc_remark=idea_qc_remark,
                             idea_qc_status=idea_qc_status
                             )
@@ -126,11 +128,13 @@ def comment(request, id):
         # Get Comment
         comment_id = id
         comment = request.POST.get("comment")
+        comment_join = Idea.objects.get(pk=id)
 
         # Create comment object
         Comment.objects.create(comment_id=comment_id,
                             commenter_name=commenter_name,
                             commenter_mail=commenter_mail,
+                            comment_join=comment_join,
                             comment=comment
                             )
         
@@ -154,6 +158,6 @@ def jury(request):
     user_email = request.user.email
     ideas = Idea.objects.all()
     judges = [i.judge_mail for i in Judge.objects.all()]
-    
-    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges})
+    all_ideas = Idea_QC.objects.all()
+    return render(request, 'storm/jury.html', {"user_email":user_email, "user_name":user_name, "ideas":ideas, "judges":judges, "all_ideas":all_ideas})
 
