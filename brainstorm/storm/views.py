@@ -197,16 +197,31 @@ def jury(request):
 def filterdate(request):
     judges = [i.judge_mail for i in Judge.objects.all()]
     if request.method == 'POST':
-        datepicker = request.POST.get('datepicker')
-        datepicker = datepicker.split(' - ')
-        date_from = datepicker[0].split('/')
-        date_from = date_from[2] + '-' + date_from[0] + '-' + date_from[1]
-        date_to = datepicker[1].split('/')
-        date_to = date_to[2] + '-' + date_to[0] + '-' + date_to[1]
+        # datepicker = request.POST.get('datepicker')
+        # datepicker = datepicker.split(' - ')
+        # date_from = datepicker[0].split('/')
+        # date_from1 = date_from[2] + '-' + date_from[0] + '-' + date_from[1]
+        # print(date_from1)
+        # date_to = datepicker[1].split('/')
+        # date_to1 = date_to[2] + '-' + date_to[0] + '-' + date_to[1]
+        # print(date_to1)
+        try:
+            engine = create_engine(
+                'postgresql://analytics:analytics@123@ec2-34-246-108-106.eu-west-1.compute.amazonaws.com:5432/iadatabase')
+            df_aws = pd.read_sql_query('select * from "headcount_master"', con=engine)
+            df = df_aws[['Email Id', 'Sub-Department', 'DF Site', '1st Level Reporting', '2nd Level Reporting']]
+            df.columns = ['email', 'dept', 'location', 'first_level', 'second_level']
+        except:
+            data = [['anubhav.kumar27@gmail.com', 'Analytics', 'Noida', 'Sanjeev Rathore', 'Sanjeev Agarwal']]
+            df = pd.DataFrame(data, columns=['email', 'dept', 'location', 'first_level', 'second_level'])
         user_name = request.user.first_name
+        all_ideas = Idea_QC.objects.all()
         user_email = request.user.email
-        # ideas = Idea.objects.filter(idea_creation_date=[date_from, date_to])
-        # ideas = [i.idea_creation_date for i in Idea.objects.all()]
-        # print(ideas)
-        return render(request, 'storm/jury.html', {})
+        date_from1 = request.POST.get('From_date')
+        date_to1 = request.POST.get('To_date')
+        if date_from1 == date_to1:
+            obj = Idea.objects.filter(created_date__date=date_from1)
+        else:
+            obj = Idea.objects.filter(created_date__gte=date_from1, created_date__lte=date_to1)
+        return render(request, 'storm/jury.html', {"obj":obj,"judges":judges, "user_email":user_email, "all_ideas":all_ideas, "df":df})
     return redirect('storm:jury')

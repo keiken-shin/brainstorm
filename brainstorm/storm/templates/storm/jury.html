@@ -28,20 +28,27 @@
                     </h1>
                     <section class="filter-all hidden">
                         <div id="filters" class="mt-2 grid md:grid-cols-6 md:gap-10"></div>
-                        <form method="post" action="{% url 'storm:filterdate' %}" id="dateRange" class="mt-2">{% csrf_token %}
-                            <div>
-                                <label for="" class="text-sm text-gray-600">Create Date</label>
-                                <div id="date_filter" class="">
-                                    <input type="text" id="createDate" class="date_range_filter text-sm px-3 text-gray-400 py-2 bg-black rounded" name="datepicker">
-                                </div>
-                            </div>
-                        </form>
+                        <!--<form method="post" action="{% url 'storm:filterdate' %}" id="dateRange" class="mt-2">{% csrf_token %}-->
+                            <!--<div>-->
+                                <!--<label for="" class="text-sm text-gray-600">Create Date</label>-->
+                                <!--<div id="date_filter" class="">-->
+                                    <!--<input type="text" id="createDate" class="date_range_filter text-sm px-3 text-gray-400 py-2 bg-black rounded" name="datepicker">-->
+								<!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+						<form action="{% url 'storm:filterdate' %}" method="post" class="mt-2">{% csrf_token %}
+                <div class="uk-flex uk-flex-middle">
+                    <input type="text" name="From_date" onfocus="this.setAttribute('type', 'date');" class="uk-input" placeholder="Start Date" required>
+                    <input type="text" name="To_date" onfocus="this.setAttribute('type', 'date');" class="uk-input uk-margin-left" placeholder="End Date" required>
+                    <button type="submit" class="uk-button uk-button-primary uk-margin-left">Apply</button>
+                </div>
+            </form>
                     </section>
                 </div>
             </section>
 
             <div id='table-div' class=" text-sm p-6 mt-6 md:w-3/4 md:m-auto text-white rounded table-div">
-				
+
 				<table id="allIdeas" class="table stripe hover text-white" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
 					<thead>
 						<tr class="text-gray-500 text-left">
@@ -82,24 +89,24 @@
 								{% endif %}
 							</td>
 							<td>
-								{% for j in df.itertuples %} 
+								{% for j in df.itertuples %}
 								{% if i.idea_join.idea_creator_mail == j.email  %}
 								{{ j.location }}
-								{% endif %} 
+								{% endif %}
 								{% endfor %}
 							</td>
 							<td>
-								{% for j in df.itertuples %} 
+								{% for j in df.itertuples %}
 								{% if i.idea_join.idea_creator_mail == j.email  %}
 								{{ j.dept }}
-								{% endif %} 
+								{% endif %}
 								{% endfor %}
 							</td>
 							<td>
-								{% for j in df.itertuples %} 
+								{% for j in df.itertuples %}
 								{% if i.idea_join.idea_creator_mail == j.email  %}
 								{{ j.first_level }}
-								{% endif %} 
+								{% endif %}
 								{% endfor %}
 							</td>
 							<td class="description">{{i.idea_join.idea_description}}</td>
@@ -125,10 +132,10 @@
 						</tr>
 						{% endfor %}
 					</tbody>
-					
+
 				</table>
-				
-				
+
+
 			</div>
 			<!--/Card-->
 
