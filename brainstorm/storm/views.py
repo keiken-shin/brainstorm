@@ -197,14 +197,15 @@ def jury(request):
 def filterdate(request):
     judges = [i.judge_mail for i in Judge.objects.all()]
     if request.method == 'POST':
-        # datepicker = request.POST.get('datepicker')
-        # datepicker = datepicker.split(' - ')
-        # date_from = datepicker[0].split('/')
-        # date_from1 = date_from[2] + '-' + date_from[0] + '-' + date_from[1]
-        # print(date_from1)
-        # date_to = datepicker[1].split('/')
-        # date_to1 = date_to[2] + '-' + date_to[0] + '-' + date_to[1]
-        # print(date_to1)
+        datepicker = request.POST.get('datepicker')
+        datepicker = datepicker.split(' - ')
+        date_from = datepicker[0].split('/')
+        date_from1 = date_from[2] + '-' + date_from[1] + '-' + date_from[0]
+        print(date_from1)
+        date_to = datepicker[1].split('/')
+        date_to1 = date_to[2] + '-' + date_to[1] + '-' + date_to[0]
+        print(date_to1)
+
         try:
             engine = create_engine(
                 'postgresql://analytics:analytics@123@ec2-34-246-108-106.eu-west-1.compute.amazonaws.com:5432/iadatabase')
@@ -217,11 +218,11 @@ def filterdate(request):
         user_name = request.user.first_name
         all_ideas = Idea_QC.objects.all()
         user_email = request.user.email
-        date_from1 = request.POST.get('From_date')
-        date_to1 = request.POST.get('To_date')
+        # date_from1 = request.POST.get('From_date')
+        # date_to1 = request.POST.get('To_date')
         if date_from1 == date_to1:
-            obj = Idea.objects.filter(created_date__date=date_from1)
+            obj = Idea.objects.filter(idea_creation_date__date=date_from1)
         else:
-            obj = Idea.objects.filter(created_date__gte=date_from1, created_date__lte=date_to1)
+            obj = Idea.objects.filter(idea_creation_date__gte=date_from1, idea_creation_date__lte=date_to1)
         return render(request, 'storm/jury.html', {"obj":obj,"judges":judges, "user_email":user_email, "all_ideas":all_ideas, "df":df})
     return redirect('storm:jury')

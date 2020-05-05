@@ -45,7 +45,7 @@ class Idea(models.Model):
     idea_status = models.CharField(max_length=200, default=None, null=True, blank=True, choices=[('WIP', 'WIP'), ('Implemented', 'Implemented'), ('Hold', 'Hold'), ('Cancel', 'Cancel'), ('Close', 'Close')])
 
     def __str__(self):
-        return self.idea_title
+        return self.idea_creation_date
 
 # QC Status for Idea
 class Idea_QC(models.Model):
