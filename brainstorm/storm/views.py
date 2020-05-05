@@ -205,8 +205,8 @@ def filterdate(request):
         date_to = date_to[2] + '-' + date_to[0] + '-' + date_to[1]
         user_name = request.user.first_name
         user_email = request.user.email
-        # ideas = Idea.objects.filter(idea_creation_date=[date_from, date_to])
-        # ideas = [i.idea_creation_date for i in Idea.objects.all()]
-        # print(ideas)
+        date_from = datetime.strptime(date_from, '%Y-%m-%d')
+        date_to = datetime.strptime(date_to, '%Y-%m-%d')
+        ideas = Idea.objects.filter(idea_creation_date__date__range=(date_from, date_to))
         return render(request, 'storm/jury.html', {})
     return redirect('storm:jury')
