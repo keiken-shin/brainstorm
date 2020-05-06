@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Idea, Judge, Impact, Improvement_Area, Idea_QC, Comment
 from datetime import datetime
 import pandas as pd
-import sqlalchemy
+from sqlalchemy import create_engine
 
 def authentication_check(user):
     return user.is_authenticated
