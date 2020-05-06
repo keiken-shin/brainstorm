@@ -17,11 +17,10 @@
     <div class="w-full h-32 flex items-center justify-center">
         <h1 class="text-3xl font-bold">All Ideas</h1>
     </div>
-
     <div class="">
         <section class="mt-6">
             <section class="mb-4">
-                <div class="filter-div rounded md:w-3/4 md:m-auto p-4">
+                <div class="filter-div rounded md:w-11/12 md:m-auto p-4">
                     <h1 class="flex filter_section cursor-pointer">
                         <span class="flex-1">Filters</span>
                         <span class="bg-gray-900 px-2 rounded"><i class="fas fa-caret-down"></i></span>
@@ -40,7 +39,7 @@
                 </div>
             </section>
 
-            <div id='table-div' class=" text-sm p-6 mt-6 md:w-3/4 md:m-auto text-white rounded table-div">
+            <div id='table-div' class=" text-sm p-6 mt-6 md:w-11/12 md:m-auto text-white rounded table-div">
 				
 				<table id="allIdeas" class="table stripe hover text-white" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
 					<thead>
@@ -48,22 +47,24 @@
 							<th data-priority="1">Id</th>
 							<th data-priority="2">Improvement</th>
 							<th data-priority="3">Title</th>
-							<th data-priority="4">Submit By</th>
+							<th data-priority="4">Creator</th>
 							<th data-priority="5">Impact</th>
-							<th data-priority="6">QC Action</th>
-							<th data-priority="7">Create Date</th>
-							<th data-priority="8">QC Date</th>
+							<th data-priority="6">QC_Action</th>
+							<th data-priority="7">Create_Date</th>
+							<th data-priority="8">QC_Date</th>
 							<th data-priority="9">Status</th>
-							<th data-priority="10">End Date</th>
+							<th data-priority="10">End_Date</th>
 							<th data-priority="11">Location</th>
 							<th data-priority="12">Team</th>
-							<th data-priority="13">1st Reporting</th>
+							<th data-priority="13">1st_Reporting</th>
 							<th data-priority="14">Description</th>
 							<th data-priority="15">Attachment</th>
 						</tr>
 					</thead>
 					<tbody>
+						{% for j in ideas %}
 						{% for i in all_ideas %}
+						{% if i.idea_join == j %}
 						<tr>
 							<td>{{i.idea_join.id}}</td>
 							<td>{{i.idea_join.idea_improvement}}</td>
@@ -123,6 +124,8 @@
 								</span>
 							</td>
 						</tr>
+						{% endif %}
+						{% endfor %}
 						{% endfor %}
 					</tbody>
 					

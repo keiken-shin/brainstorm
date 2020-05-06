@@ -9,7 +9,7 @@
 <div class="md:w-3/4 md:m-auto">
     <section class="mb-4 flex items-center">
         <h1 class="flex-1 text-2xl font-bold md:text-3xl">{{i.idea_title}}</h1>
-        <a href="{% url 'storm:home' %}" class="bg-blue-300 text-blue-800 p-2 rounded cursor-pointer hidden md:block"><i class="fas fa-chevron-left mr-2"></i> Back to home</a>
+        <a onclick="history.back()" class="bg-blue-300 text-blue-800 p-2 rounded cursor-pointer hidden md:block"><i class="fas fa-chevron-left mr-2"></i> Back to home</a>
     </section>
 
     <span class="idea_id hidden">{{i.id}}</span>
@@ -18,12 +18,13 @@
     {% if j.idea_qc_status == 'Accepted' %}
     <div class="mb-8">
         <label for="" class="block text-gray-600 mb-1">Idea Status</label>
+        {% if user_email in judges %}
         {% if i.idea_status == 'Cancel' %}
         <span class="bg-red-900 px-2 py-1 rounded">{{ i.idea_status }}</span>
         {% elif i.idea_status == 'Close' %}
         <span class="bg-blue-900 px-2 py-1 rounded">{{ i.idea_status }}</span>
         {% else %}
-        <form action="" class="status_form">{% csrf_token %}
+        <form action="" class="status_form relative">{% csrf_token %}
             <select name="idea_status" class="py-2 px-3 form__select w-1/4 rounded status border cursor-pointer">
                 <option value="">--Status--</option>
                 <option value="WIP">WIP</option>
@@ -33,6 +34,16 @@
                 <option value="Cancel">Cancel</option>
             </select>
         </form>
+        <section class="absolute top-0 bottom-0 left-0 right-0 z-20 dialog flex items-center justify-center hidden">
+            <div class="bg-gray-900 px-6 py-3 md:px-8 md:py-4 rounded">
+                <p class="mb-2 dialog__p">Do you really want to close this idea?</p>
+                <button type="button" id="idea_status_yes" class="bg-blue-600 px-4 py-1 rounded mr-2">Yes</button>
+                <button type="button" id="idea_status_no" class="border border-gray-100 rounded px-4 py-1">No</button>
+            </div>
+        </section>
+        {% endif %}
+        {% else %}
+        <span class="bg-blue-900 px-2 py-1 rounded">{{ i.idea_status }}</span>
         {% endif %}
     </div>
     {% endif %}
@@ -42,19 +53,31 @@
         <p class="font-semibold flex flex-col md:flex-row text-purple-600">
             <span class="flex flex-col md:flex-1 text-sm">
                 <span class="mb-2"><i class="far fa-user mr-2"></i>{{ i.idea_creator_name }}</span>
-                <span class=""><i class="far fa-envelope mr-2"></i>{{ i.idea_creator_mail }}</span>
+                <span class="mb-2"><i class="far fa-envelope mr-2"></i>{{ i.idea_creator_mail }}</span>
+                <span class=""><i class="far fa-clock mr-2"></i>{{i.idea_creation_date|date}}</span>
             </span>
             <span class="flex flex-col md:flex-1 text-sm">
             <span class="mb-2"><i class="fas fa-users mr-2"></i>
                 {% for j in df.itertuples %} 
                 {% if i.idea_creator_mail == j.email  %}
                     {{ j.dept }}
-                {% else %}
-                    No Team Record
                 {% endif %} 
                 {% endfor %} 
             </span>
-            <span class=""><i class="far fa-clock mr-2"></i>{{i.idea_creation_date|date}}</span>
+            <span class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i>
+                {% for j in df.itertuples %} 
+                {% if i.idea_creator_mail == j.email  %}
+                    {{ j.location }}
+                {% endif %} 
+                {% endfor %} 
+            </span>
+            <span class=""><i class="fas fa-user-tie mr-2"></i>
+                {% for j in df.itertuples %} 
+                {% if i.idea_creator_mail == j.email  %}
+                    {{ j.first_level }}
+                {% endif %} 
+                {% endfor %} 
+            </span>
             </span>
         </p>
     </section>
@@ -66,7 +89,7 @@
         </p>
 
         <p class="flex-1">
-            <span class="block text-md text-gray-500">Impact Range</span>
+            <span class="block text-md text-gray-500">Impact</span>
             <span class="block text-lg">{{ i.idea_impact }}</span>
         </p>
     </section>

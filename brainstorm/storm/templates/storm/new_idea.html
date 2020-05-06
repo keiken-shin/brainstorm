@@ -1,4 +1,5 @@
 <!-- New Idea -->
+{% if ideas.count != new_ideas.count %}
 <ul class="list tab_section new_ideas mt-6 grid gap-6 md:grid-cols-3">
     {% for idea in ideas %}
     {% if idea.id not in new_ideas %}
@@ -30,7 +31,9 @@
         </div>
         <a href="{% url 'storm:idea' id=idea.id %}" class="block absolute top-0 bottom-0 left-0 right-0 z-10"></a>
     </li>
-    
     {% endif %}
     {% endfor %}
 </ul>
+{% else %}
+<p class="bg-gray-800 p-4 tab_section mt-6 text-center rounded md:w-2/3 md:m-auto new_ideas"><i class="far fa-folder-open mr-4"></i>No Ideas to select from</p>
+{% endif %}

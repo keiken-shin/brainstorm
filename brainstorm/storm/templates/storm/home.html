@@ -13,24 +13,19 @@
     {% if ideas %}
     <div class="idea_box">
         {% if user_email in judges %}
-        <div class="sticky top-0 bg-black flex flex-col items-center md:flex-row">
-            <!-- <div class="flex-1">
-                <input type="text" class="search rounded py-2 px-4" placeholder="search ideas...">
-            </div> -->
-            <ul class="tab flex-1 flex flex-col z-10 mb-2 md:flex-row md:justify-end">
-                <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="new_ideas">New Ideas</li>
-                <li class="p-4 font-bold lowercase cursor-pointer" data-class="selected_ideas">Selected Ideas</li>
-            </ul>
-        </div>
-
-        {% include 'storm/new_idea.html' %}
-        
-        {% include 'storm/selected_idea.html' %}
-
+            <div class="sticky top-0 bg-black flex flex-col items-center md:flex-row">
+                <!-- <div class="flex-1">
+                    <input type="text" class="search rounded py-2 px-4" placeholder="search ideas...">
+                </div> -->
+                <ul class="tab flex-1 flex flex-col z-10 mb-2 md:flex-row md:justify-end">
+                    <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="new_ideas">New Ideas</li>
+                    <li class="p-4 font-bold lowercase cursor-pointer" data-class="selected_ideas">Selected Ideas</li>
+                </ul>
+            </div>
+            {% include 'storm/new_idea.html' %}
+            {% include 'storm/selected_idea.html' %}
         {% else %}
-
-        {% include 'storm/your_idea.html' %}
-
+            {% include 'storm/your_idea.html' %}
         {% endif %}
     </div>
     {% else %}

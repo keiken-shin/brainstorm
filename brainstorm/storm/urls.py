@@ -13,6 +13,6 @@ urlpatterns = [
     path('selection/<int:id>/', views.selection, name="selection"),
     path('comment/<int:id>/', views.comment, name="comment"),
     path('status/<int:id>/', views.status, name="status"),
-    path('jury', views.jury, name='jury'),
-    path('filterdate', views.filterdate, name='filterdate'),
+    path('jury/', views.jury, name='jury'),
+    path('filterdate/', views.filterdate, name='filterdate'),
 ]

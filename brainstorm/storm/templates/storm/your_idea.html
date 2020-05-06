@@ -1,14 +1,13 @@
-{% if user_email in your_idea_mail %}
+{% if your_idea %}
 <div class="sticky top-0 bg-black flex flex-col items-center md:flex-row">
     <ul class="tab flex-1 flex flex-col z-10 mb-2 md:flex-row md:justify-end">
         <li class="p-4 mr-2 font-bold lowercase cursor-pointer md:tab-active" data-class="all_ideas">All ideas</li>
         <li class="p-4 font-bold lowercase cursor-pointer" data-class="selected_ideas">Selected Ideas</li>
     </ul>
 </div>
-<ul class="tab_section all_ideas mt-6 grid gap-6 md:grid-cols-3">
-    {% for idea in ideas %}
-    {% if idea.idea_creator_mail == user_email %}
 
+<ul class="tab_section all_ideas mt-6 grid gap-6 md:grid-cols-3">
+    {% for idea in your_idea %}
     <li class="rounded relative py-3 card transition duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-100">
         <p class="self-end flex items-center px-4 pb-2 mb-2 card__head">
             <span class="flex-1 text-base font-bold card__head__creator">{{idea.idea_creator_name}}</span>
@@ -46,11 +45,10 @@
 
         <a href="{% url 'storm:idea' id=idea.id %}" class="block absolute top-0 bottom-0 left-0 right-0 z-10"></a>
     </li>
-
-    {% endif %}
     {% endfor %}
 </ul>
 
+{% if selected_ideas %}
 <ul class="tab_section selected_ideas hidden mt-6 grid gap-6 md:grid-cols-3">
     {% for idea in ideas %}
     {% if idea.id in selected_ideas %}
@@ -92,11 +90,14 @@
 
         <a href="{% url 'storm:idea' id=idea.id %}" class="block absolute top-0 bottom-0 left-0 right-0 z-10"></a>
     </li>
-
     {% endif %}
     {% endif %}
     {% endfor %}
 </ul>
+{% else %}
+<p class="bg-gray-800 p-4 tab_section selected_ideas mt-6 hidden text-center rounded md:w-2/3 md:m-auto"><i class="far fa-folder-open mr-4"></i>No Selected Idea! Head back to new ideas tab and select some</p>
+{% endif %}
+
 {% else %}
 {% include 'storm/empty.html' %}
 {% endif %}

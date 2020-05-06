@@ -4,8 +4,12 @@ const ideaID = document.querySelector('.idea_id');
 try{
     const statusForm = document.querySelector('.status_form'),
           ideaStatus = statusForm.querySelector('[name="idea_status"]'),
+          dialog = document.querySelector('.dialog'),
+          dialogP = dialog.querySelector('.dialog__p'),
+          ideaYes = dialog.querySelector('#idea_status_yes'),
+          ideaNo = dialog.querySelector('#idea_status_no'),
           statusCsrf = statusForm.querySelector('[name="csrfmiddlewaretoken"]');
-
+          
     const statusData = new FormData();
     ideaStatus.value = statusValue;
 
@@ -13,10 +17,39 @@ try{
         statusData.append('csrfmiddlewaretoken', statusCsrf.value);
         statusData.append('idea_status', ideaStatus.value);
 
+        if(ideaStatus.value !== 'Close' && ideaStatus.value !== 'Cancel'){
+            fetch(`/status/${ideaID.textContent}/`, {
+                method: 'POST',
+                body: statusData
+            }).then(res => {
+                if(ideaStatus.value === 'Close'){
+                    ideaStatus.classList.add('hidden');
+                    statusForm.insertAdjacentHTML('beforeend', '<span class="bg-blue-900 px-2 py-1 rounded">Close</span>')
+                }else if(ideaStatus.value === 'Cancel'){
+                    ideaStatus.classList.add('hidden');
+                    statusForm.insertAdjacentHTML('beforeend', '<span class="bg-red-900 px-2 py-1 rounded">Cancel</span>')
+                }
+            })
+        }else{
+            dialog.classList.remove('hidden');
+            if(ideaStatus.value == 'Cancel'){
+                dialogP.textContent = 'Do you really want to cancel this idea?';
+            }else{
+                dialogP.textContent = 'Do you really want to close this idea?';
+            }
+        }
+    });
+
+    // Idea Yes
+    ideaYes.addEventListener('click', () => {
+        statusData.append('csrfmiddlewaretoken', statusCsrf.value);
+        statusData.append('idea_status', ideaStatus.value);
+
         fetch(`/status/${ideaID.textContent}/`, {
             method: 'POST',
             body: statusData
         }).then(res => {
+            dialog.classList.add('hidden');
             if(ideaStatus.value === 'Close'){
                 ideaStatus.classList.add('hidden');
                 statusForm.insertAdjacentHTML('beforeend', '<span class="bg-blue-900 px-2 py-1 rounded">Close</span>')
@@ -26,6 +59,9 @@ try{
             }
         })
     })
+
+    // Idea No
+    ideaNo.addEventListener('click', () => location.reload());
 }catch(err){console.log}
 
 
