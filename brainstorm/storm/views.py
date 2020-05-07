@@ -132,7 +132,7 @@ def selection(request, id):
                             idea_qc_remark=idea_qc_remark,
                             idea_qc_status=idea_qc_status
                             )
-        send_mail(f'Your Idea is {idea_status}',f'Hi,\n\nremarks on your idea is {idea_remark}.', settings.EMAIL_HOST_USER, [idea_creator_mail])
+        send_mail(f'Your Idea is {idea_qc_status}',f'Hi,\n\nremarks on your idea is {idea_qc_remark}.', settings.EMAIL_HOST_USER, [idea_qc_mail])
         
         return redirect('storm:idea', id=id)
     return redirect('storm:home')

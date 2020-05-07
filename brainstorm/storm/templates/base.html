@@ -24,7 +24,7 @@
     <header class="h-screen w-20 flex flex-col items-center fixed header">
         <div class="w-full h-20 flex items-center justify-center">
             <a href="{% url 'storm:home' %}">
-                <svg id="logo" viewBox="0 0 61.56 50.76">
+                <!-- <svg id="logo" viewBox="0 0 61.56 50.76">
                     <title>Logo</title>
                     <g id="Layer_2" data-name="Layer 2">
                         <g id="Layer_1-2" data-name="Layer 1">
@@ -32,7 +32,8 @@
                             <path class="cls-1" d="M48.24,37.66H61.56v13.1H48.24Z"/>
                         </g>
                     </g>
-                </svg>
+                </svg> -->
+                <img src="{% static 'storm/images/idea.svg' %}" alt="logo" id="logo">
             </a>
         </div>
         <nav class="flex-1 w-full nav">
@@ -40,7 +41,7 @@
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:home' %}" class="block nav__link" data-content='Home'>Home</a></li>
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:idea_form' %}" class="block nav__link" data-content='Push Idea'>Push Idea</a></li>
                 {% if user_email in judges %}
-                <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='View All'>View All</a></li>
+                <li class="flex-1 relative w-full"><a href="{% url 'storm:jury' %}" class="block nav__link" data-content='View'>View</a></li>
                 {% endif %}
                 <li class="flex-1 relative w-full"><a href="{% url 'storm:logout_user' %}" class="block nav__link" data-content='Logout'>Logout</a></li>
             </ul>
