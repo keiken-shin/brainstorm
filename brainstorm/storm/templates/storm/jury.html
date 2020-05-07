@@ -76,8 +76,8 @@
 							<td>{{i.idea_qc_date|date}}</td>
 							<td>{{i.idea_join.idea_status}}</td>
 							<td>
-								{% if i.idea_join.idea_status == "Close" and i.idea_join.idea_status == "Cancel" %}
-									{{i.idea_join.idea_close_date}}
+								{% if i.idea_join.idea_status == "Close" or i.idea_join.idea_status == "Cancel" %}
+									{{i.idea_join.idea_close_date|date}}
 								{% else %}
 								--
 								{% endif %}
