@@ -104,8 +104,8 @@ def idea_submit(request):
                             idea_file_4=idea_file_4,
                             idea_file_5=idea_file_5,
                             )
-        send_mail(f'Your ID is {obj.id}',
-                  'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
+        # send_mail(f'Your ID is {obj.id}',
+        #           'Hi,\n\nYour Idea is received.', settings.EMAIL_HOST_USER,[request.user.email])
                         
         return redirect('storm:home')
     return redirect('storm:home')
@@ -132,7 +132,7 @@ def selection(request, id):
                             idea_qc_remark=idea_qc_remark,
                             idea_qc_status=idea_qc_status
                             )
-        send_mail(f'Your Idea is {idea_qc_status}',f'Hi,\n\nremarks on your idea is {idea_qc_remark}.', settings.EMAIL_HOST_USER, [idea_qc_mail])
+        # send_mail(f'Your Idea is {idea_qc_status}',f'Hi,\n\nremarks on your idea is {idea_qc_remark}.', settings.EMAIL_HOST_USER, [idea_qc_mail])
         
         return redirect('storm:idea', id=id)
     return redirect('storm:home')
