@@ -7,7 +7,7 @@ celery==5.2.2
 certifi==2022.12.7
 cffi==1.14.0
 chardet==3.0.4
-cryptography==3.3.2
+cryptography==39.0.1
 defusedxml==0.6.0
 distlib==0.3.0
 Django==2.2.28
